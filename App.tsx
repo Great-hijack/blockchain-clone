@@ -5,5 +5,5 @@ import Pin from "./src/screens/pin";
 import AppNavigator from "./src/navigation";
 
 export default function App() {
-  return <AppNavigator />;
+  return <Pin />;
 }
