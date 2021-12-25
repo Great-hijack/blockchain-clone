@@ -22,7 +22,7 @@ const TotalBalanceItem = ({}) => {
     <View style={styles.container}>
       <View style={styles.dataContainer}>
         <Text style={{ color: Colors.accentColor_100, fontSize: 16 }}>
-          TotalBalnceItem
+          Total Balance
         </Text>
         <Text style={styles.txtPrice}>$5,254.32</Text>
         <View style={styles.percentContainer}>
