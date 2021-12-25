@@ -9,12 +9,12 @@ const TotalBalanceItem = ({}) => {
     {
       key: 1,
       value: 50,
-      svg: { fill: "#3E33C7" },
+      svg: { fill: "#FB8F21" },
     },
     {
       key: 2,
       value: 10,
-      svg: { fill: "#FB8F21" },
+      svg: { fill: "#3E33C7" },
     },
   ];
 
@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     marginTop: -35,
+    marginEnd: -30,
   },
 });
 export default TotalBalanceItem;

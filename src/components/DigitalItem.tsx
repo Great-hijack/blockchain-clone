@@ -25,14 +25,14 @@ const DigitalItem: FC<DigitalItemProps> = ({ number, onNumberClick }) => {
 
 const styles = StyleSheet.create({
   touchStyle: {
-    width: 80,
-    height: 80,
+    width: 64,
+    height: 64,
     justifyContent: "center",
     alignItems: "center",
   },
   txtDigit: {
     color: Colors.secondaryColor,
-    fontSize: 48,
+    fontSize: 40,
     textAlign: "center",
   },
 });

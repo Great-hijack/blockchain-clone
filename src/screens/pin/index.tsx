@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { View, Text, StyleSheet, Image, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Image, StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import Colors from "../../constants/Colors";
@@ -53,13 +53,14 @@ const Pin = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={Colors.primaryDarkColor} />
       <View style={styles.topBarContainer}>
         <Text style={styles.txtLogout}>Log Out</Text>
         <Image source={Images.LogoImg} style={styles.imgLogo} />
         <View style={styles.txtOppositeView}></View>
       </View>
 
-      <ScrollView style={styles.scrollViewContainer}>
+      <View style={styles.scrollViewContainer}>
         <View style={styles.pinCodeContainer}>
           <PinCode selectedPinLength={selectedPinLength} />
         </View>
@@ -71,7 +72,7 @@ const Pin = () => {
             }}
           />
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
@@ -104,6 +105,10 @@ const styles = StyleSheet.create({
   },
   scrollViewContainer: {
     width: "100%",
+    // flexDirection: "column",
+    justifyContent: "space-between",
+    flex: 1,
+    flexDirection: "column",
   },
   pinCodeContainer: {
     justifyContent: "center",
@@ -111,7 +116,7 @@ const styles = StyleSheet.create({
   },
   digitalContainer: {
     justifyContent: "center",
-    marginTop: 160,
+    marginBottom: 20,
     alignItems: "center",
   },
 });

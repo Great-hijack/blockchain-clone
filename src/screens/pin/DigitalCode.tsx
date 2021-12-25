@@ -96,7 +96,7 @@ const DigiitalCode: FC<DigitalCodeProps> = ({ onNumberClick }) => {
           width: "100%",
         }}
       >
-        <View style={{ width: 80, height: 80 }}></View>
+        <View style={{ width: 64, height: 64 }}></View>
         <DigitalItem
           number="0"
           onNumberClick={(digit: string) => onNumberClick(digit)}
@@ -110,7 +110,7 @@ const DigiitalCode: FC<DigitalCodeProps> = ({ onNumberClick }) => {
           }}
           style={styles.touchStyle}
         >
-          <Ionicons name="backspace-outline" size={56} color="white" />
+          <Ionicons name="backspace-outline" size={40} color="white" />
         </TouchableOpacity>
       </View>
     </View>
@@ -124,8 +124,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   touchStyle: {
-    width: 80,
-    height: 80,
+    width: 64,
+    height: 64,
     justifyContent: "center",
     alignItems: "center",
   },

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FontAwesome } from "@expo/vector-icons";
 import SegmentedControlTab from "react-native-segmented-control-tab";
@@ -16,6 +16,7 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar backgroundColor={Colors.primaryDarkColor} />
       <View style={styles.topBarContainer}>
         <FontAwesome name="navicon" size={24} style={styles.navIcon} />
         <Text style={styles.topBarTitle}>Home</Text>
@@ -49,7 +50,7 @@ const Home = () => {
             itemTitle="BitCoin"
             itemBalance={0.000064}
             itemSymbol="BTC"
-            itemPrice={444444}
+            itemPrice={4444}
             itemPercent={23}
             itemHour={24}
             color="#FB8F21"

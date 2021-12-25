@@ -40,7 +40,7 @@ const CoinItem: FC<CoinItemProps> = ({
           <Text style={styles.coinDatumTitle}>{itemTitle}</Text>
           <Text
             style={styles.coinDatumBalance}
-          >{`${itemBalance}${itemSymbol}`}</Text>
+          >{`${itemBalance} ${itemSymbol}`}</Text>
           <Text style={styles.coinDatumPrice}>{`$${itemPrice}`}</Text>
         </View>
       </View>
@@ -58,7 +58,7 @@ const CoinItem: FC<CoinItemProps> = ({
             {" "}
             {`${itemPercent}%`}{" "}
           </Text>
-          <Text style={styles.coinDatumPrice}> {`${itemHour}hrs`} </Text>
+          <Text style={styles.coinDatumPrice}>{`${itemHour} hrs`} </Text>
         </View>
       </View>
     </View>
