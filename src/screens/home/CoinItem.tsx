@@ -59,7 +59,12 @@ const CoinItem: FC<CoinItemProps> = ({
           itemPrice
         )}`}</Text>
         <View style={styles.percentContainer}>
-          <Text style={{ color: "#4D8F79", fontSize: 16 }}>
+          <Text
+            style={{
+              color: itemPercent > 0 ? "#4D8F79" : "#CD3131",
+              fontSize: 16,
+            }}
+          >
             {" "}
             {`${itemPercent}%`}{" "}
           </Text>
@@ -110,6 +115,7 @@ const styles = StyleSheet.create({
   },
   graphContainer: {
     flexDirection: "column",
+    width: 100,
   },
   percentContainer: {
     flexDirection: "row",

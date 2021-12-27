@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Animated,
+  Image,
 } from "react-native";
 import { BottomTabBarProps } from "@react-navigation/bottom-tabs";
 import {
@@ -18,6 +19,7 @@ import {
 } from "@expo/vector-icons";
 
 import Colors from "../constants/Colors";
+import Images from "../constants/Images";
 
 const TabBar = ({ state, navigation }: BottomTabBarProps) => {
   return (
@@ -27,6 +29,7 @@ const TabBar = ({ state, navigation }: BottomTabBarProps) => {
         const itemColor = isFocused
           ? Colors.primaryColor
           : Colors.accentColor_100;
+        const isPlus = route.name == "Plus";
 
         const onPress = () => {
           const event = navigation.emit({
@@ -51,7 +54,7 @@ const TabBar = ({ state, navigation }: BottomTabBarProps) => {
             iconName = "home-filled";
             iconType = "MaterialIcons";
             break;
-          case "BuySell":
+          case "Buy & Sell":
             iconName = "cart";
             iconType = "Ionicons";
             break;
@@ -94,63 +97,73 @@ const TabBar = ({ state, navigation }: BottomTabBarProps) => {
               onPressIn={handlePressIn}
               onPressOut={handlePressOut}
             >
-              <View style={{ alignItems: "center" }}>
-                {iconType == "AntDesign" && (
-                  <AntDesign
-                    name={iconName as any}
-                    color={itemColor}
-                    size={22}
+              {isPlus ? (
+                <View style={styles.actionsButton}>
+                  <Image
+                    source={Images.PlusImg}
+                    style={{ width: 48, height: 48 }}
                   />
-                )}
-                {iconType == "MaterialCommunityIcons" && (
-                  <MaterialCommunityIcons
-                    name={iconName as any}
-                    color={itemColor}
-                    size={22}
-                  />
-                )}
-                {iconType == "MaterialIcons" && (
-                  <MaterialIcons
-                    name={iconName as any}
-                    color={itemColor}
-                    size={22}
-                  />
-                )}
-                {iconType == "FontAwesome5" && (
-                  <FontAwesome5
-                    name={iconName as any}
-                    color={itemColor}
-                    size={22}
-                  />
-                )}
-                {iconType == "Entypo" && (
-                  <Entypo name={iconName as any} color={itemColor} size={22} />
-                )}
-                {iconType == "Fontisto" && (
-                  <Entypo name={iconName as any} color={itemColor} size={22} />
-                )}
-                {iconType == "Ionicons" && (
-                  <Ionicons
-                    name={iconName as any}
-                    color={itemColor}
-                    size={22}
-                  />
-                )}
-                {iconType == "MaterialCommunityIcons" && (
-                  <MaterialCommunityIcons
-                    name={iconName as any}
-                    color={itemColor}
-                    size={22}
-                  />
-                )}
-                <Text
-                  style={[{ color: itemColor }, styles.tabBarText]}
-                  selectable
-                >
-                  {route.name}
-                </Text>
-                <View style={isFocused && styles.selectedBar}></View>
-              </View>
+                </View>
+              ) : (
+                <View style={{ alignItems: "center" }}>
+                  {iconType == "AntDesign" && (
+                    <AntDesign
+                      name={iconName as any}
+                      color={itemColor}
+                      size={22}
+                    />
+                  )}
+                  {iconType == "MaterialCommunityIcons" && (
+                    <MaterialCommunityIcons
+                      name={iconName as any}
+                      color={itemColor}
+                      size={22}
+                    />
+                  )}
+                  {iconType == "MaterialIcons" && (
+                    <MaterialIcons
+                      name={iconName as any}
+                      color={itemColor}
+                      size={22}
+                    />
+                  )}
+                  {iconType == "FontAwesome5" && (
+                    <FontAwesome5
+                      name={iconName as any}
+                      color={itemColor}
+                      size={22}
+                    />
+                  )}
+                  {iconType == "Entypo" && (
+                    <Entypo
+                      name={iconName as any}
+                      color={itemColor}
+                      size={22}
+                    />
+                  )}
+                  {iconType == "Fontisto" && (
+                    <Entypo
+                      name={iconName as any}
+                      color={itemColor}
+                      size={22}
+                    />
+                  )}
+                  {iconType == "Ionicons" && (
+                    <Ionicons
+                      name={iconName as any}
+                      color={itemColor}
+                      size={22}
+                    />
+                  )}
+
+                  <Text
+                    style={[{ color: itemColor }, styles.tabBarText]}
+                    selectable
+                  >
+                    {route.name}
+                  </Text>
+                </View>
+              )}
             </TouchableOpacity>
           </Animated.View>
         );
@@ -162,8 +175,9 @@ const TabBar = ({ state, navigation }: BottomTabBarProps) => {
 const styles = StyleSheet.create({
   tabBar: {
     flexDirection: "row",
-    height: 85,
-    borderTopWidth: 1,
+    height: 70,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderColor: Colors.accentColor_100,
     justifyContent: "space-evenly",
     backgroundColor: Colors.secondaryColor,
   },
@@ -176,19 +190,12 @@ const styles = StyleSheet.create({
     fontWeight: "normal",
   },
   actionsButton: {
-    width: 42,
-    height: 42,
-    backgroundColor: "#0053f8",
-    borderRadius: 21,
+    width: 48,
+    height: 48,
     alignSelf: "center",
     justifyContent: "center",
     alignItems: "center",
-  },
-  selectedBar: {
-    height: 2,
-    backgroundColor: Colors.primaryColor,
-    width: "100%",
-    marginTop: 2,
+    marginTop: -8,
   },
 });
 

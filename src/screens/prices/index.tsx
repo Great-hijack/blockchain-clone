@@ -6,7 +6,7 @@ const Prices = () => {
   return (
     <SafeAreaView>
       <View>
-        <Text>Swap</Text>
+        <Text>Prices</Text>
       </View>
     </SafeAreaView>
   );

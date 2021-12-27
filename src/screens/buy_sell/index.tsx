@@ -6,7 +6,7 @@ const BuySell = () => {
   return (
     <SafeAreaView>
       <View>
-        <Text>Send</Text>
+        <Text>Buy Sell</Text>
       </View>
     </SafeAreaView>
   );

@@ -23,7 +23,7 @@ const TabNavigator = () => {
       <TabBarNavigator.Screen name="Home" component={Home} />
       <TabBarNavigator.Screen name="Prices" component={Prices} />
       <TabBarNavigator.Screen name="Plus" component={Request} />
-      <TabBarNavigator.Screen name="BuySell" component={BuySell} />
+      <TabBarNavigator.Screen name="Buy & Sell" component={BuySell} />
       <TabBarNavigator.Screen name="Activity" component={Activity} />
     </TabBarNavigator.Navigator>
   );

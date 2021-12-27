@@ -6,7 +6,7 @@ const Request = () => {
   return (
     <SafeAreaView>
       <View>
-        <Text>Send</Text>
+        <Text>Plus</Text>
       </View>
     </SafeAreaView>
   );
