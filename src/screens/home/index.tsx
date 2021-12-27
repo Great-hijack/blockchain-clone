@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { FontAwesome } from "@expo/vector-icons";
+import {
+  MaterialCommunityIcons,
+  FontAwesome,
+  FontAwesome5,
+} from "@expo/vector-icons";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 
 import Colors from "../../constants/Colors";
@@ -16,31 +20,25 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={Colors.primaryDarkColor} />
+      <StatusBar backgroundColor={Colors.secondaryColor} />
       <View style={styles.topBarContainer}>
-        <FontAwesome name="navicon" size={24} style={styles.navIcon} />
         <Text style={styles.topBarTitle}>Home</Text>
-        <View style={styles.topBarRight}></View>
+        <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
+          <MaterialCommunityIcons
+            name="qrcode-scan"
+            size={24}
+            color={Colors.accentColor_100}
+          />
+          <View style={{ marginHorizontal: 8 }}></View>
+          <FontAwesome5
+            name="user-alt"
+            size={22}
+            color={Colors.accentColor_100}
+          />
+        </View>
       </View>
 
       <ScrollView style={styles.scrollContainer}>
-        <View style={styles.segmentContainer}>
-          <SegmentedControlTab
-            values={["Portfolio", "Prices"]}
-            selectedIndex={segmentIndex}
-            onTabPress={handleSegmentIndex}
-            activeTabStyle={{ backgroundColor: "white" }}
-            activeTabTextStyle={{ color: Colors.primaryColor }}
-            tabTextStyle={{ color: Colors.accentColor }}
-            tabsContainerStyle={{ height: 36 }}
-            tabStyle={{
-              backgroundColor: "#EEEBEE",
-              borderColor: "#EEEBEE",
-              borderWidth: 2,
-            }}
-          />
-        </View>
-
         <View>
           <TotalBalanceItem />
         </View>
@@ -79,7 +77,7 @@ const Home = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.primaryDarkColor,
+    backgroundColor: Colors.secondaryColor,
     justifyContent: "flex-start",
   },
 
@@ -88,7 +86,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 16,
-    backgroundColor: Colors.primaryDarkColor,
+    backgroundColor: Colors.secondaryColor,
     alignItems: "center",
   },
   scrollContainer: {
@@ -100,12 +98,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     marginBottom: 12,
   },
-  navIcon: {
-    color: Colors.secondaryColor,
-  },
+
   topBarTitle: {
-    color: Colors.secondaryColor,
+    color: Colors.accentColor,
     fontSize: 24,
+    fontWeight: "bold",
   },
   topBarRight: {
     width: 24,

@@ -11,7 +11,9 @@ import {
   AntDesign,
   MaterialCommunityIcons,
   MaterialIcons,
+  Fontisto,
   FontAwesome5,
+  Ionicons,
   Entypo,
 } from "@expo/vector-icons";
 
@@ -41,31 +43,25 @@ const TabBar = ({ state, navigation }: BottomTabBarProps) => {
         let iconName;
         let iconType;
         switch (route.name) {
-          case "Activity":
-            iconName = "exception1";
-            iconType = "AntDesign";
-            break;
-          case "Swap":
-            // iconName = "swap-horizontal-bold";
-            // iconType = "MaterialCommunityIcons";
-            iconName = "swap";
-            iconType = "Entypo";
+          case "Prices":
+            iconName = "chart-area";
+            iconType = "FontAwesome5";
             break;
           case "Home":
             iconName = "home-filled";
             iconType = "MaterialIcons";
             break;
-          case "Send":
-            iconName = "telegram-plane";
-            iconType = "FontAwesome5";
+          case "BuySell":
+            iconName = "cart";
+            iconType = "Ionicons";
             break;
-          case "Request":
-            iconName = "download";
-            iconType = "FontAwesome5";
+          case "Activity":
+            iconName = "clock";
+            iconType = "MaterialCommunityIcons";
             break;
           default:
-            iconName = "exception1";
-            iconType = "AntDesign";
+            iconName = "home-filled";
+            iconType = "MaterialIcons";
         }
 
         const animatedValue = new Animated.Value(1);
@@ -129,6 +125,23 @@ const TabBar = ({ state, navigation }: BottomTabBarProps) => {
                 )}
                 {iconType == "Entypo" && (
                   <Entypo name={iconName as any} color={itemColor} size={22} />
+                )}
+                {iconType == "Fontisto" && (
+                  <Entypo name={iconName as any} color={itemColor} size={22} />
+                )}
+                {iconType == "Ionicons" && (
+                  <Ionicons
+                    name={iconName as any}
+                    color={itemColor}
+                    size={22}
+                  />
+                )}
+                {iconType == "MaterialCommunityIcons" && (
+                  <MaterialCommunityIcons
+                    name={iconName as any}
+                    color={itemColor}
+                    size={22}
+                  />
                 )}
                 <Text
                   style={[{ color: itemColor }, styles.tabBarText]}

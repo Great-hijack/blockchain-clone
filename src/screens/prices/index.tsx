@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const Swap = () => {
+const Prices = () => {
   return (
     <SafeAreaView>
       <View>
@@ -11,4 +11,4 @@ const Swap = () => {
     </SafeAreaView>
   );
 };
-export default Swap;
+export default Prices;
