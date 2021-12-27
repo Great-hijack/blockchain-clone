@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
 import { LineChart } from "react-native-svg-charts";
 
 import Colors from "../../constants/Colors";
+import { getLocaleCurrencyString } from "../../utils/utils";
 
 interface CoinItemProps {
   itemTitle: string;
@@ -41,7 +42,9 @@ const CoinItem: FC<CoinItemProps> = ({
           <Text
             style={styles.coinDatumBalance}
           >{`${itemBalance} ${itemSymbol}`}</Text>
-          <Text style={styles.coinDatumPrice}>{`$${itemPrice}`}</Text>
+          <Text style={styles.coinDatumPrice}>{`$${getLocaleCurrencyString(
+            itemPrice
+          )}`}</Text>
         </View>
       </View>
 
@@ -52,7 +55,9 @@ const CoinItem: FC<CoinItemProps> = ({
           svg={{ stroke: color, strokeWidth: 2 }}
           contentInset={{ top: 10, bottom: 0 }}
         />
-        <Text style={styles.coinDatumBalance}>{`$${itemPrice}`}</Text>
+        <Text style={styles.coinDatumBalance}>{`$${getLocaleCurrencyString(
+          itemPrice
+        )}`}</Text>
         <View style={styles.percentContainer}>
           <Text style={{ color: "#4D8F79", fontSize: 16 }}>
             {" "}

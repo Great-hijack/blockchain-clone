@@ -45,7 +45,7 @@ const Home = () => {
 
         <View style={styles.coinItemContainer}>
           <CoinItem
-            itemTitle="BitCoin"
+            itemTitle="Bitcoin"
             itemBalance={0.000064}
             itemSymbol="BTC"
             itemPrice={4444}

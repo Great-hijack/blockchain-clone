@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from "react-native";
 import { PieChart } from "react-native-svg-charts";
 
 import Colors from "../../constants/Colors";
+import { getLocaleCurrencyString } from "../../utils/utils";
 
 const TotalBalanceItem = ({}) => {
   const pieChartData = [
@@ -13,7 +14,7 @@ const TotalBalanceItem = ({}) => {
     },
     {
       key: 2,
-      value: 10,
+      value: 5,
       svg: { fill: "#3E33C7" },
     },
   ];
@@ -24,9 +25,13 @@ const TotalBalanceItem = ({}) => {
         <Text style={{ color: Colors.accentColor_100, fontSize: 16 }}>
           Total Balance
         </Text>
-        <Text style={styles.txtPrice}>$5,254.32</Text>
+        <Text style={styles.txtPrice}>
+          $ {getLocaleCurrencyString("5,254.32")}{" "}
+        </Text>
         <View style={styles.percentContainer}>
-          <Text style={styles.txtPercent}>+$95.15(1.84%)</Text>
+          <Text style={styles.txtPercent}>
+            +${getLocaleCurrencyString("95.15")}(1.84%)
+          </Text>
           <Text style={styles.txtHour}>24hrs</Text>
         </View>
       </View>
