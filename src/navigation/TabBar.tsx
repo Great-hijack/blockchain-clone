@@ -17,6 +17,7 @@ import {
   Ionicons,
   Entypo,
 } from "@expo/vector-icons";
+import { SvgXml } from "react-native-svg";
 
 import Colors from "../constants/Colors";
 import Images from "../constants/Images";
@@ -43,12 +44,24 @@ const TabBar = ({ state, navigation }: BottomTabBarProps) => {
           }
         };
 
+        const priceXml = (color: string) => `
+<svg width="24px" height="24px" viewBox="0 0 255 255" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+<desc>Created with Lunacy</desc>
+<g id="Group" transform="translate(4 4)">
+  <path d="M0 0L197 0L197 197L0 197L0 0Z" id="Rectangle" fill=${color} stroke="none" />
+  <path d="M63 0L0 112" transform="translate(115 25)" id="Line" fill="none" stroke="#FFFFFF" stroke-width="8" />
+  <path d="M52 30L0 0" transform="translate(68 106)" id="Line-2" fill="none" stroke="#FFFFFF" stroke-width="8" />
+  <path d="M34 0L0 54" transform="translate(39 105)" id="Line-3" fill="none" stroke="#FFFFFF" stroke-width="8" />
+</g>
+</svg>
+`;
+
         let iconName;
         let iconType;
         switch (route.name) {
           case "Prices":
-            iconName = "chart-area";
-            iconType = "FontAwesome5";
+            iconName = "prices";
+            iconType = "SVG";
             break;
           case "Home":
             iconName = "home-filled";
@@ -154,6 +167,9 @@ const TabBar = ({ state, navigation }: BottomTabBarProps) => {
                       color={itemColor}
                       size={22}
                     />
+                  )}
+                  {iconType == "SVG" && (
+                    <SvgXml xml={priceXml(itemColor)} width={22} height={22} />
                   )}
 
                   <Text
