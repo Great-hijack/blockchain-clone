@@ -39,7 +39,7 @@ const TotalBalanceItem = ({}) => {
         <PieChart
           style={{ height: 150, width: 150 }}
           data={pieChartData}
-          outerRadius={"40%"}
+          outerRadius={"45%"}
         />
       </View>
     </View>

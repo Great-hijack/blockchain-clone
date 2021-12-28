@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ScrollView, StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   MaterialCommunityIcons,
+  MaterialIcons,
   FontAwesome,
   FontAwesome5,
 } from "@expo/vector-icons";
@@ -26,13 +27,13 @@ const Home = () => {
         <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
           <MaterialCommunityIcons
             name="qrcode-scan"
-            size={24}
+            size={20}
             color={Colors.accentColor_100}
           />
-          <View style={{ marginHorizontal: 8 }}></View>
-          <FontAwesome5
-            name="user-alt"
-            size={22}
+          <View style={{ marginHorizontal: 12 }}></View>
+          <MaterialIcons
+            name="person"
+            size={24}
             color={Colors.accentColor_100}
           />
         </View>
@@ -66,10 +67,6 @@ const Home = () => {
           />
         </View>
       </ScrollView>
-
-      <View style={styles.buttonContainer}>
-        <Text style={styles.txtCrypto}>Buy Crypto</Text>
-      </View>
     </SafeAreaView>
   );
 };
@@ -110,6 +107,7 @@ const styles = StyleSheet.create({
   },
   coinItemContainer: {
     paddingBottom: 40,
+    marginTop: -20,
   },
   buttonContainer: {
     backgroundColor: Colors.secondaryColor,
