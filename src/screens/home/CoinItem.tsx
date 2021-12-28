@@ -50,7 +50,7 @@ const CoinItem: FC<CoinItemProps> = ({
 
       <View style={styles.graphContainer}>
         <LineChart
-          style={{ height: 50 }}
+          style={{ height: 50, width: "60%" }}
           data={graphData}
           svg={{ stroke: color, strokeWidth: 2 }}
           contentInset={{ top: 10, bottom: 0 }}
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   coinDatumBalance: {
     marginTop: 4,
     color: Colors.accentColor,
-    fontSize: 16,
+    fontSize: 18,
   },
   coinDatumPrice: {
     color: Colors.accentColor_100,
