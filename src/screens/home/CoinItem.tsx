@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   },
   graphContainer: {
     flexDirection: "column",
-    width: 100,
+    width: 90,
   },
   percentContainer: {
     flexDirection: "row",

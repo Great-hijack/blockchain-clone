@@ -21,7 +21,10 @@ const Home = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor={Colors.secondaryColor} />
+      <StatusBar
+        backgroundColor={Colors.secondaryColor}
+        barStyle="dark-content"
+      />
       <View style={styles.topBarContainer}>
         <Text style={styles.topBarTitle}>Home</Text>
         <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
