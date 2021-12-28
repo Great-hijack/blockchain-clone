@@ -8,21 +8,27 @@ interface PinCodeItemProps {
 
 const PinCodeItem: FC<PinCodeItemProps> = ({ selected }) => {
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          width: selected ? 26 : 24,
-          marginHorizontal: selected ? 14 : 16,
-          height: selected ? 26 : 24,
-          backgroundColor: selected ? "white" : Colors.accentColor,
-        },
-      ]}
-    ></View>
+    <View style={styles.contain}>
+      <View
+        style={[
+          styles.container,
+          {
+            width: selected ? 26 : 24,
+            height: selected ? 26 : 24,
+            backgroundColor: selected ? "white" : Colors.accentColor,
+          },
+        ]}
+      ></View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  contain: {
+    width: 28,
+    height: 28,
+    marginHorizontal: 14,
+  },
   container: {
     borderRadius: 50,
   },

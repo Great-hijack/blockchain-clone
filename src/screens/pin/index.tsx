@@ -105,7 +105,6 @@ const styles = StyleSheet.create({
   },
   scrollViewContainer: {
     width: "100%",
-    // flexDirection: "column",
     justifyContent: "space-between",
     flex: 1,
     flexDirection: "column",
