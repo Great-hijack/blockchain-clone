@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
     color: Colors.accentColor,
     fontSize: 24,
     fontWeight: "bold",
+    fontFamily: "Roboto-Medium",
   },
   topBarRight: {
     width: 24,

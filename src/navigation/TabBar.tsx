@@ -12,7 +12,6 @@ import {
   AntDesign,
   MaterialCommunityIcons,
   MaterialIcons,
-  Fontisto,
   FontAwesome5,
   Ionicons,
   Entypo,

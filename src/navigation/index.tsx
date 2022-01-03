@@ -1,11 +1,11 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Asset } from "expo-asset";
+import { useFonts } from "expo-font";
 
 import Activity from "../screens/activity";
-import Swap from "../screens/prices";
 import Home from "../screens/home";
-import Send from "../screens/buy_sell";
 import Request from "../screens/request";
 import TabBar from "./TabBar";
 import Prices from "../screens/prices";
@@ -30,6 +30,15 @@ const TabNavigator = () => {
 };
 
 const AppNavigator = () => {
+  const [loaded] = useFonts({
+    "Roboto-Medium": Asset.fromModule(
+      require("../../assets/fonts/Roboto-Medium.ttf")
+    ),
+  });
+
+  if (!loaded) {
+    return null;
+  }
   return (
     <>
       <NavigationContainer>
