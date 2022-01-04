@@ -9,6 +9,7 @@ import Images from "../../constants/Images";
 import AppNavigator from "../../navigation";
 import DigiitalCode from "./DigitalCode";
 import PinCode from "./PinCode";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const Pin = () => {
   const [loaded] = useFonts({
@@ -19,7 +20,7 @@ const Pin = () => {
   const pinLength = useRef(0);
   const [selectedPinLength, setSelectedPinLength] = useState(0);
   const [isCorrectPass, setIsCorrectPass] = useState(false);
-  const animation = useRef();
+  const [isLoading, setIsLoading] = useState(false);
   let password = "";
 
   const handlePinLength = (digit: string) => {
@@ -38,6 +39,7 @@ const Pin = () => {
     }
     handlePass(digit);
     if (pinLength.current === 4) {
+      setIsLoading(true);
       setTimeout(() => {
         setIsCorrectPass(true);
       }, 2000);
@@ -53,10 +55,8 @@ const Pin = () => {
     }
   };
 
-  {
-    if (isCorrectPass) {
-      return <AppNavigator />;
-    }
+  if (isCorrectPass) {
+    return <AppNavigator />;
   }
 
   if (!loaded) {
@@ -84,6 +84,8 @@ const Pin = () => {
           />
         </View>
       </View>
+
+      {isLoading && <LoadingSpinner />}
     </SafeAreaView>
   );
 };
