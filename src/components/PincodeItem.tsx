@@ -13,9 +13,9 @@ const PinCodeItem: FC<PinCodeItemProps> = ({ selected }) => {
         style={[
           styles.container,
           {
-            width: selected ? 26 : 24,
-            height: selected ? 26 : 24,
-            backgroundColor: selected ? "white" : Colors.accentColor,
+            width: selected ? 26 : 20,
+            height: selected ? 26 : 20,
+            backgroundColor: selected ? "white" : "#25447F",
           },
         ]}
       ></View>

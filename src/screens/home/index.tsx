@@ -1,13 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {
-  MaterialCommunityIcons,
-  MaterialIcons,
-  FontAwesome,
-  FontAwesome5,
-} from "@expo/vector-icons";
-import SegmentedControlTab from "react-native-segmented-control-tab";
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 import Colors from "../../constants/Colors";
 import CoinItem from "./CoinItem";
@@ -43,7 +37,7 @@ const Home = () => {
       </View>
 
       <ScrollView style={styles.scrollContainer}>
-        <View>
+        <View style={styles.totalItemContainer}>
           <TotalBalanceItem />
         </View>
 
@@ -109,9 +103,12 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
   },
+  totalItemContainer: {
+    marginTop: -10,
+  },
   coinItemContainer: {
     paddingBottom: 40,
-    marginTop: -20,
+    marginTop: -30,
   },
   buttonContainer: {
     backgroundColor: Colors.secondaryColor,

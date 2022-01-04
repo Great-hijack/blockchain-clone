@@ -14,7 +14,7 @@ const TotalBalanceItem = ({}) => {
     },
     {
       key: 2,
-      value: 5,
+      value: 3,
       svg: { fill: "#3E33C7" },
     },
   ];
@@ -22,9 +22,7 @@ const TotalBalanceItem = ({}) => {
   return (
     <View style={styles.container}>
       <View style={styles.dataContainer}>
-        <Text style={{ color: Colors.accentColor_100, fontSize: 16 }}>
-          Total Balance
-        </Text>
+        <Text style={styles.txtBalance}>Total Balance</Text>
         <Text style={styles.txtPrice}>
           $ {getLocaleCurrencyString("5,254.32")}{" "}
         </Text>
@@ -56,9 +54,15 @@ const styles = StyleSheet.create({
   dataContainer: {
     flexDirection: "column",
   },
+  txtBalance: {
+    color: Colors.accentColor_100,
+    fontSize: 16,
+    fontWeight: "bold",
+  },
   txtPrice: {
     fontSize: 20,
     color: Colors.accentColor,
+    fontWeight: "bold",
   },
   percentContainer: {
     flexDirection: "row",

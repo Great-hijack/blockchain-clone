@@ -110,7 +110,7 @@ const DigiitalCode: FC<DigitalCodeProps> = ({ onNumberClick }) => {
           }}
           style={styles.touchStyle}
         >
-          <Ionicons name="backspace-outline" size={40} color="white" />
+          <Ionicons name="backspace-outline" size={32} color="white" />
         </TouchableOpacity>
       </View>
     </View>

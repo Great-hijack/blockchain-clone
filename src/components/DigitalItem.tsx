@@ -32,8 +32,9 @@ const styles = StyleSheet.create({
   },
   txtDigit: {
     color: Colors.secondaryColor,
-    fontSize: 40,
+    fontSize: 34,
     textAlign: "center",
+    fontFamily: "Roboto-Medium",
   },
 });
 export default DigitalItem;

@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   coinDatumTitle: {
-    fontSize: 20,
+    fontSize: 19,
     color: Colors.accentColor,
   },
   coinDatumBalance: {

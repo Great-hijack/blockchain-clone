@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
 import { View, Text, StyleSheet, Image, StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Asset } from "expo-asset";
+import { useFonts } from "expo-font";
 
 import Colors from "../../constants/Colors";
 import Images from "../../constants/Images";
@@ -9,9 +11,15 @@ import DigiitalCode from "./DigitalCode";
 import PinCode from "./PinCode";
 
 const Pin = () => {
+  const [loaded] = useFonts({
+    "Roboto-Medium": Asset.fromModule(
+      require("../../../assets/fonts/Roboto-Medium.ttf")
+    ),
+  });
   const pinLength = useRef(0);
   const [selectedPinLength, setSelectedPinLength] = useState(0);
   const [isCorrectPass, setIsCorrectPass] = useState(false);
+  const animation = useRef();
   let password = "";
 
   const handlePinLength = (digit: string) => {
@@ -51,6 +59,9 @@ const Pin = () => {
     }
   }
 
+  if (!loaded) {
+    return null;
+  }
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={Colors.primaryDarkColor} />
@@ -96,8 +107,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   imgLogo: {
-    width: 56,
-    height: 56,
+    width: 48,
+    height: 48,
   },
   txtOppositeView: {
     width: 48,

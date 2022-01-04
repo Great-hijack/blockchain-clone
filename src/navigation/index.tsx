@@ -30,15 +30,6 @@ const TabNavigator = () => {
 };
 
 const AppNavigator = () => {
-  const [loaded] = useFonts({
-    "Roboto-Medium": Asset.fromModule(
-      require("../../assets/fonts/Roboto-Medium.ttf")
-    ),
-  });
-
-  if (!loaded) {
-    return null;
-  }
   return (
     <>
       <NavigationContainer>
