@@ -122,53 +122,58 @@ const TabBar = ({ state, navigation }: BottomTabBarProps) => {
                     <AntDesign
                       name={iconName as any}
                       color={itemColor}
-                      size={22}
+                      size={26}
                     />
                   )}
                   {iconType == "MaterialCommunityIcons" && (
                     <MaterialCommunityIcons
                       name={iconName as any}
                       color={itemColor}
-                      size={22}
+                      size={26}
                     />
                   )}
                   {iconType == "MaterialIcons" && (
                     <MaterialIcons
                       name={iconName as any}
                       color={itemColor}
-                      size={22}
+                      size={26}
                     />
                   )}
                   {iconType == "FontAwesome5" && (
                     <FontAwesome5
                       name={iconName as any}
                       color={itemColor}
-                      size={22}
+                      size={26}
                     />
                   )}
                   {iconType == "Entypo" && (
                     <Entypo
                       name={iconName as any}
                       color={itemColor}
-                      size={22}
+                      size={26}
                     />
                   )}
                   {iconType == "Fontisto" && (
                     <Entypo
                       name={iconName as any}
                       color={itemColor}
-                      size={22}
+                      size={26}
                     />
                   )}
                   {iconType == "Ionicons" && (
                     <Ionicons
                       name={iconName as any}
                       color={itemColor}
-                      size={22}
+                      size={26}
                     />
                   )}
                   {iconType == "SVG" && (
-                    <SvgXml xml={priceXml(itemColor)} width={22} height={22} />
+                    <SvgXml
+                      xml={priceXml(itemColor)}
+                      width={26}
+                      height={26}
+                      style={{ marginTop: 3, marginBottom: -3 }}
+                    />
                   )}
 
                   <Text
