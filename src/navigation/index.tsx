@@ -1,7 +1,6 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Asset } from "expo-asset";
 import { useFonts } from "expo-font";
 
 import Activity from "../screens/activity";

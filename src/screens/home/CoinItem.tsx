@@ -1,5 +1,12 @@
 import React, { FC } from "react";
-import { View, Text, StyleSheet, ScrollView, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { LineChart } from "react-native-svg-charts";
 
 import Colors from "../../constants/Colors";
@@ -14,6 +21,7 @@ interface CoinItemProps {
   itemHour: number;
   color: string;
   id: number;
+  onItemClick: (coinId: string) => void;
 }
 
 const CoinItem: FC<CoinItemProps> = ({
@@ -25,10 +33,17 @@ const CoinItem: FC<CoinItemProps> = ({
   itemHour,
   color,
   id,
+  onItemClick,
 }) => {
   const graphData = [50, 10, 40, 95, -4, -24, 85, 91, 35];
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      activeOpacity={0.8}
+      onPress={() => {
+        onItemClick(itemTitle);
+      }}
+    >
       <View style={styles.coinDataContainer}>
         <Image
           style={styles.coinImg}
@@ -55,9 +70,9 @@ const CoinItem: FC<CoinItemProps> = ({
           svg={{ stroke: color, strokeWidth: 2 }}
           contentInset={{ top: 10, bottom: 0 }}
         />
-        <Text style={styles.coinDatumBalance}>{`$${getLocaleCurrencyString(
-          itemPrice
-        )}`}</Text>
+        <Text style={styles.coinDatumBalance}>
+          {`$${getLocaleCurrencyString(itemPrice)}`}
+        </Text>
         <View style={styles.percentContainer}>
           <Text
             style={{
@@ -71,7 +86,7 @@ const CoinItem: FC<CoinItemProps> = ({
           <Text style={styles.coinDatumPrice}>{`${itemHour} hrs`} </Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -103,11 +118,13 @@ const styles = StyleSheet.create({
   coinDatumTitle: {
     fontSize: 19,
     color: Colors.accentColor,
+    fontFamily: "Roboto-Medium",
   },
   coinDatumBalance: {
     marginTop: 4,
     color: Colors.accentColor,
     fontSize: 18,
+    fontFamily: "Roboto-Medium",
   },
   coinDatumPrice: {
     color: Colors.accentColor_100,

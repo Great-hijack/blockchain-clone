@@ -6,12 +6,14 @@ import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 import Colors from "../../constants/Colors";
 import CoinItem from "./CoinItem";
 import TotalBalanceItem from "./TotalBalanceItem";
+import ItemDetailDialog from "./ItemDetailDialog";
 
 const Home = () => {
   const [segmentIndex, setSegmentIndex] = useState(0);
   const handleSegmentIndex = (index: any) => {
     setSegmentIndex(index);
   };
+  const [isShowItemDialog, setShowItemDialog] = useState(false);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -51,6 +53,9 @@ const Home = () => {
             itemHour={24}
             color="#FB8F21"
             id={1}
+            onItemClick={(coinId: string) => {
+              setShowItemDialog(true);
+            }}
           />
           <CoinItem
             itemTitle="Ethereum"
@@ -61,9 +66,14 @@ const Home = () => {
             itemHour={24}
             color="blue"
             id={1027}
+            onItemClick={(coinId: string) => {
+              setShowItemDialog(true);
+            }}
           />
         </View>
       </ScrollView>
+
+      {isShowItemDialog && <ItemDetailDialog />}
     </SafeAreaView>
   );
 };
