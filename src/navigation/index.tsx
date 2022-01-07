@@ -12,6 +12,11 @@ import BuySell from "../screens/buy_sell";
 
 const TabBarNavigator = createBottomTabNavigator();
 
+export type RootStackParamList = {
+  Home: undefined;
+  Activity: undefined;
+};
+
 const TabNavigator = () => {
   return (
     <TabBarNavigator.Navigator

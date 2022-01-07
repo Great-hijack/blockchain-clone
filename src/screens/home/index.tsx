@@ -1,12 +1,22 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, ScrollView, StatusBar } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  StatusBar,
+  Button,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 import Colors from "../../constants/Colors";
 import CoinItem from "./CoinItem";
 import TotalBalanceItem from "./TotalBalanceItem";
 import ItemDetailDialog from "./ItemDetailDialog";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { RootStackParamList } from "../../navigation";
 
 const Home = () => {
   const [segmentIndex, setSegmentIndex] = useState(0);
@@ -17,7 +27,6 @@ const Home = () => {
     isVisible: false,
     id: 0,
   });
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar

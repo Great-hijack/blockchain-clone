@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useEffect, useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -12,23 +12,43 @@ import {
   MaterialCommunityIcons,
   Fontisto,
 } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 
 import BuySelItem from "../../components/BuySelItem";
 import Colors from "../../constants/Colors";
 import DetailDialogItem from "./DetailDialogItem";
+import { RootStackParamList } from "../../navigation";
+
+type tabScreenProp = BottomTabNavigationProp<RootStackParamList, "Home">;
 
 interface ItemDetailDialogPropertyProps {
   isVisible: boolean;
   id: number;
+  onActivityClicked: () => void;
 }
 
 const ItemDetailPropertyDialog: FC<ItemDetailDialogPropertyProps> = ({
   isVisible = false,
   id,
+  onActivityClicked,
 }) => {
+  const [isModalVisible, setModalVisible] = useState(true);
+  const onActivityHandle = () => {
+    // isVisible = false;
+    setModalVisible(false);
+    onActivityClicked();
+  };
+  const navigation = useNavigation<tabScreenProp>();
+  // useEffect(() => {
+  //   if (isVisible) {
+  //     setModalVisible(true);
+  //   }
+  // }, []);
+
   return (
     <Modal
-      isVisible={isVisible}
+      isVisible={isVisible && isModalVisible}
       animationInTiming={900}
       hasBackdrop={true}
       backdropOpacity={0.4}
@@ -75,7 +95,13 @@ const ItemDetailPropertyDialog: FC<ItemDetailDialogPropertyProps> = ({
           />
         </BuySelItem>
 
-        <TouchableOpacity activeOpacity={0.7}>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => {
+            // onActivityHandle();
+            navigation.navigate("Activity");
+          }}
+        >
           <BuySelItem title="Activity" content="View All Transactions">
             <MaterialCommunityIcons
               name="clock-time-four"

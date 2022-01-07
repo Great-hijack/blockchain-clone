@@ -28,9 +28,10 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
     isVisible: false,
     id: 0,
   });
+  const [isModalVisible, setModalVisible] = useState(true);
   return (
     <Modal
-      isVisible={isVisible}
+      isVisible={isVisible && isModalVisible}
       animationInTiming={500}
       style={styles.container}
       hasBackdrop={true}
@@ -126,6 +127,14 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
       <ItemDetailPropertyDialog
         isVisible={showItemPropertyDialog.isVisible}
         id={showItemPropertyDialog.id}
+        onActivityClicked={() => {
+          setShowItemPropertyDialog({
+            ...showItemPropertyDialog,
+            ...{ isVisible: false },
+          });
+          setModalVisible(false);
+          console.log("------------------");
+        }}
       />
     </Modal>
   );
