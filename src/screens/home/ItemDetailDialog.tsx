@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import {
   View,
   Text,
@@ -13,12 +13,29 @@ import WeekSegmentItem from "../../components/WeekSegmentItem";
 
 import Colors from "../../constants/Colors";
 import DetailDialogItem from "./DetailDialogItem";
+import ItemDetailPropertyDialog from "./ItemDetailPropertyDialog";
 
-const ItemDetailDialog = () => {
-  const graphData = [50, 10, 40, 95, -4, -24, 85, 91, 35];
+interface ItemDetailDialogProps {
+  isVisible: boolean;
+  id: number;
+}
 
+const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
+  isVisible = false,
+  id,
+}) => {
+  const [showItemPropertyDialog, setShowItemPropertyDialog] = useState({
+    isVisible: false,
+    id: 0,
+  });
   return (
-    <Modal isVisible={true} animationInTiming={500} style={styles.container}>
+    <Modal
+      isVisible={isVisible}
+      animationInTiming={500}
+      style={styles.container}
+      hasBackdrop={true}
+      backdropOpacity={0.1}
+    >
       <View style={styles.titleContainer}>
         <Text style={styles.txtCoinTitle}>Current BTC Price</Text>
         <Text style={styles.txtPriceTitle}>$51,020.47</Text>
@@ -27,9 +44,8 @@ const ItemDetailDialog = () => {
           <Text style={styles.txtWeek}>1 week</Text>
         </View>
       </View>
-
       <Chart
-        style={{ height: 160, width: "100%", marginTop: 10 }}
+        style={{ height: 120, width: "100%", marginTop: 0 }}
         data={[
           { x: 0, y: 12 },
           { x: 1, y: 7 },
@@ -78,24 +94,39 @@ const ItemDetailDialog = () => {
           itemBalance={0.0000064}
           itemSymbol="BTC"
           itemPrice={4444}
-          id={1}
-          onItemClick={(coinId: string) => {}}
+          id={id}
+          onItemClick={(coinId: string) => {
+            setShowItemPropertyDialog({
+              ...showItemPropertyDialog,
+              ...{ isVisible: true, id: 1 },
+            });
+          }}
         />
 
         <DetailDialogItem
           itemKey="Trading Account"
           itemTitle="Bitcoin"
-          itemBalance={0.0000064}
+          itemBalance={0.000045}
           itemSymbol="BTC"
-          itemPrice={4444}
-          id={1}
-          onItemClick={(coinId: string) => {}}
+          itemPrice={234}
+          id={id}
+          onItemClick={(coinId: string) => {
+            setShowItemPropertyDialog({
+              ...showItemPropertyDialog,
+              ...{ isVisible: true, id: 1 },
+            });
+          }}
         />
       </ScrollView>
 
       <TouchableOpacity style={styles.btnContainer} activeOpacity={0.8}>
         <Text style={styles.txtBtn}>Buy Bitcoin</Text>
       </TouchableOpacity>
+
+      <ItemDetailPropertyDialog
+        isVisible={showItemPropertyDialog.isVisible}
+        id={showItemPropertyDialog.id}
+      />
     </Modal>
   );
 };
@@ -116,7 +147,7 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: "column",
     alignItems: "center",
-    paddingBottom: 32,
+    paddingBottom: 16,
     paddingTop: 8,
   },
   txtCoinTitle: {
@@ -145,10 +176,11 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     marginTop: 8,
+    paddingHorizontal: 12,
   },
   btnContainer: {
     backgroundColor: Colors.primaryColor,
-    marginHorizontal: 8,
+    marginHorizontal: 12,
     borderRadius: 8,
     height: 48,
     justifyContent: "center",

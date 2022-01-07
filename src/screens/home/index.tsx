@@ -13,7 +13,10 @@ const Home = () => {
   const handleSegmentIndex = (index: any) => {
     setSegmentIndex(index);
   };
-  const [isShowItemDialog, setShowItemDialog] = useState(false);
+  const [showItemDialog, setShowItemDialog] = useState({
+    isVisible: false,
+    id: 0,
+  });
 
   return (
     <SafeAreaView style={styles.container}>
@@ -54,7 +57,10 @@ const Home = () => {
             color="#FB8F21"
             id={1}
             onItemClick={(coinId: string) => {
-              setShowItemDialog(true);
+              setShowItemDialog({
+                ...showItemDialog,
+                ...{ isVisible: true, id: 1 },
+              });
             }}
           />
           <CoinItem
@@ -67,13 +73,19 @@ const Home = () => {
             color="blue"
             id={1027}
             onItemClick={(coinId: string) => {
-              setShowItemDialog(true);
+              setShowItemDialog({
+                ...showItemDialog,
+                ...{ isVisible: true, id: 1027 },
+              });
             }}
           />
         </View>
       </ScrollView>
 
-      {isShowItemDialog && <ItemDetailDialog />}
+      <ItemDetailDialog
+        isVisible={showItemDialog.isVisible}
+        id={showItemDialog.id}
+      />
     </SafeAreaView>
   );
 };
