@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   StyleSheet,
   StatusBar,
   ScrollView,
+  RefreshControl,
 } from "react-native";
 import {
   FontAwesome5,
@@ -15,8 +16,11 @@ import {
 
 import Colors from "../../constants/Colors";
 import ActivityItem from "./ActivityItem";
+import ActiveItemDetailDialog from "./ActiveItemDetailDialog";
 
 const Activity = () => {
+  const [scrollRefreshing, setscrollRefreshing] = useState(false);
+  const [isDialogVisible, setDialogVisible] = useState(false);
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -49,13 +53,24 @@ const Activity = () => {
         </View>
       </View>
 
-      <ScrollView style={styles.scrollContainer}>
+      <ScrollView
+        style={styles.scrollContainer}
+        refreshControl={
+          <RefreshControl
+            tintColor="rgb(233, 233, 243)"
+            refreshing={scrollRefreshing}
+          />
+        }
+      >
         <ActivityItem
           title="Received BTC"
           content="Dec 24, 2021"
           balance="0.10192344"
           symbol="BTC"
           usdPrice="5,234.01"
+          onItemClick={() => {
+            setDialogVisible(true);
+          }}
         >
           <MaterialCommunityIcons
             name="arrow-bottom-left"
@@ -69,6 +84,9 @@ const Activity = () => {
           balance="0.12192344"
           symbol="BTC"
           usdPrice="5,524.01"
+          onItemClick={() => {
+            setDialogVisible(true);
+          }}
         >
           <MaterialCommunityIcons
             name="arrow-bottom-left"
@@ -82,6 +100,9 @@ const Activity = () => {
           balance="0.0001923"
           symbol="BTC"
           usdPrice="234.01"
+          onItemClick={() => {
+            setDialogVisible(true);
+          }}
         >
           <MaterialCommunityIcons
             name="arrow-bottom-left"
@@ -95,6 +116,9 @@ const Activity = () => {
           balance="0.00014344"
           symbol="BTC"
           usdPrice="124.01"
+          onItemClick={() => {
+            setDialogVisible(true);
+          }}
         >
           <MaterialCommunityIcons
             name="arrow-bottom-left"
@@ -108,6 +132,9 @@ const Activity = () => {
           balance="0.0082344"
           symbol="BTC"
           usdPrice="4,234.01"
+          onItemClick={() => {
+            setDialogVisible(true);
+          }}
         >
           <MaterialCommunityIcons
             name="arrow-bottom-left"
@@ -122,6 +149,9 @@ const Activity = () => {
           balance="0.0082344"
           symbol="BTC"
           usdPrice="4,234.01"
+          onItemClick={() => {
+            setDialogVisible(true);
+          }}
         >
           <MaterialCommunityIcons
             name="arrow-top-right"
@@ -136,6 +166,9 @@ const Activity = () => {
           balance="0.0082344"
           symbol="BTC"
           usdPrice="4,234.01"
+          onItemClick={() => {
+            setDialogVisible(true);
+          }}
         >
           <MaterialCommunityIcons
             name="arrow-bottom-left"
@@ -145,6 +178,14 @@ const Activity = () => {
         </ActivityItem>
         <View style={{ height: 20 }}></View>
       </ScrollView>
+
+      {isDialogVisible && (
+        <ActiveItemDetailDialog
+          onItemClicked={() => {
+            setDialogVisible(false);
+          }}
+        />
+      )}
     </SafeAreaView>
   );
 };

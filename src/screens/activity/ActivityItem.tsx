@@ -1,5 +1,5 @@
 import React, { JSXElementConstructor, FC } from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Colors from "../../constants/Colors";
 
@@ -10,6 +10,7 @@ interface ActivityItemProps {
   symbol: string;
   usdPrice: string;
   children: JSX.Element;
+  onItemClick: () => void;
 }
 
 const ActivityItem: FC<ActivityItemProps> = ({
@@ -19,9 +20,16 @@ const ActivityItem: FC<ActivityItemProps> = ({
   symbol,
   usdPrice,
   children,
+  onItemClick,
 }) => {
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      activeOpacity={0.7}
+      onPress={() => {
+        onItemClick();
+      }}
+    >
       <View style={styles.leftContainer}>
         <View style={styles.iconContainer}>{children}</View>
 
@@ -37,7 +45,7 @@ const ActivityItem: FC<ActivityItemProps> = ({
         </Text>
         <Text style={styles.txtContent}>${usdPrice}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
