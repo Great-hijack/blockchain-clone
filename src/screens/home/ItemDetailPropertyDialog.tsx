@@ -1,54 +1,35 @@
-import React, { FC, useEffect, useMemo, useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
+import React, { FC } from "react";
+import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import Modal from "react-native-modal";
-import {
-  AntDesign,
-  MaterialCommunityIcons,
-  Fontisto,
-} from "@expo/vector-icons";
+import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 
 import BuySelItem from "../../components/BuySelItem";
-import Colors from "../../constants/Colors";
 import DetailDialogItem from "./DetailDialogItem";
 import { RootStackParamList } from "../../navigation";
 
 type tabScreenProp = BottomTabNavigationProp<RootStackParamList, "Home">;
 
 interface ItemDetailDialogPropertyProps {
-  isVisible: boolean;
   id: number;
+  children: JSX.Element;
   onActivityClicked: () => void;
 }
 
 const ItemDetailPropertyDialog: FC<ItemDetailDialogPropertyProps> = ({
-  isVisible = false,
   id,
+  children,
   onActivityClicked,
 }) => {
-  const [isModalVisible, setModalVisible] = useState(true);
   const onActivityHandle = () => {
-    // isVisible = false;
-    setModalVisible(false);
     onActivityClicked();
   };
   const navigation = useNavigation<tabScreenProp>();
-  // useEffect(() => {
-  //   if (isVisible) {
-  //     setModalVisible(true);
-  //   }
-  // }, []);
 
   return (
     <Modal
-      isVisible={isVisible && isModalVisible}
+      isVisible={true}
       animationInTiming={900}
       hasBackdrop={true}
       backdropOpacity={0.4}
@@ -62,6 +43,7 @@ const ItemDetailPropertyDialog: FC<ItemDetailDialogPropertyProps> = ({
           itemSymbol="BTC"
           itemPrice={4444}
           id={id}
+          children={children}
           onItemClick={(coinId: string) => {}}
         />
       </View>
@@ -98,7 +80,7 @@ const ItemDetailPropertyDialog: FC<ItemDetailDialogPropertyProps> = ({
         <TouchableOpacity
           activeOpacity={0.7}
           onPress={() => {
-            // onActivityHandle();
+            onActivityHandle();
             navigation.navigate("Activity");
           }}
         >

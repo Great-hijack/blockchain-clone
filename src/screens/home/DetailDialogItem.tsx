@@ -1,13 +1,5 @@
 import React, { FC } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-} from "react-native";
-import { LineChart } from "react-native-svg-charts";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
 import Colors from "../../constants/Colors";
 import { getLocaleCurrencyString } from "../../utils/utils";
@@ -19,6 +11,7 @@ interface DetailDialogItemProps {
   itemSymbol: string;
   itemPrice: number;
   id: number;
+  children: JSX.Element;
   onItemClick: (coinId: string) => void;
 }
 
@@ -29,6 +22,7 @@ const DetailDialogItem: FC<DetailDialogItemProps> = ({
   itemSymbol,
   itemPrice,
   id,
+  children,
   onItemClick,
 }) => {
   return (
@@ -40,12 +34,15 @@ const DetailDialogItem: FC<DetailDialogItemProps> = ({
       }}
     >
       <View style={styles.coinDataContainer}>
-        <Image
-          style={styles.coinImg}
-          source={{
-            uri: `https://s2.coinmarketcap.com/static/img/coins/64x64/${id.toString()}.png`,
-          }}
-        />
+        <View>
+          <Image
+            style={styles.coinImg}
+            source={{
+              uri: `https://s2.coinmarketcap.com/static/img/coins/64x64/${id.toString()}.png`,
+            }}
+          />
+          <View style={styles.appendImgView}>{children}</View>
+        </View>
 
         <View style={styles.coinDatumContainer}>
           <Text style={styles.coinDatumTitle}>{itemKey}</Text>
@@ -84,6 +81,19 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     backgroundColor: "transparent",
     marginEnd: 12,
+  },
+  appendImgView: {
+    position: "absolute",
+    top: 16,
+    right: 4,
+    borderRadius: 50,
+    width: 20,
+    height: 20,
+    backgroundColor: "#FF9020",
+    borderWidth: 2,
+    borderColor: "white",
+    justifyContent: "center",
+    alignItems: "center",
   },
   coinDatumContainer: {
     flexDirection: "column",

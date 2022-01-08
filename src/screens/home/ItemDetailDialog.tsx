@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import { Chart, Line, Area, Tooltip } from "react-native-responsive-linechart";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import WeekSegmentItem from "../../components/WeekSegmentItem";
 
@@ -16,22 +17,25 @@ import DetailDialogItem from "./DetailDialogItem";
 import ItemDetailPropertyDialog from "./ItemDetailPropertyDialog";
 
 interface ItemDetailDialogProps {
-  isVisible: boolean;
   id: number;
+  onItemClicked: () => void;
 }
 
-const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
-  isVisible = false,
-  id,
-}) => {
+const ItemDetailDialog: FC<ItemDetailDialogProps> = ({ id, onItemClicked }) => {
   const [showItemPropertyDialog, setShowItemPropertyDialog] = useState({
     isVisible: false,
     id: 0,
+    children: (
+      <MaterialCommunityIcons
+        name="arrow-top-right-bottom-left"
+        size={22}
+        color="#FF911C"
+      />
+    ),
   });
-  const [isModalVisible, setModalVisible] = useState(true);
   return (
     <Modal
-      isVisible={isVisible && isModalVisible}
+      isVisible={true}
       animationInTiming={500}
       style={styles.container}
       hasBackdrop={true}
@@ -96,10 +100,19 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
           itemSymbol="BTC"
           itemPrice={4444}
           id={id}
+          children={
+            <MaterialCommunityIcons name="key" size={12} color="white" />
+          }
           onItemClick={(coinId: string) => {
             setShowItemPropertyDialog({
               ...showItemPropertyDialog,
-              ...{ isVisible: true, id: 1 },
+              ...{
+                isVisible: true,
+                id: id,
+                children: (
+                  <MaterialCommunityIcons name="key" size={12} color="white" />
+                ),
+              },
             });
           }}
         />
@@ -111,10 +124,27 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
           itemSymbol="BTC"
           itemPrice={234}
           id={id}
+          children={
+            <MaterialCommunityIcons
+              name="arrow-top-right-bottom-left"
+              size={12}
+              color="white"
+            />
+          }
           onItemClick={(coinId: string) => {
             setShowItemPropertyDialog({
               ...showItemPropertyDialog,
-              ...{ isVisible: true, id: 1 },
+              ...{
+                isVisible: true,
+                id: id,
+                children: (
+                  <MaterialCommunityIcons
+                    name="arrow-top-right-bottom-left"
+                    size={12}
+                    color="white"
+                  />
+                ),
+              },
             });
           }}
         />
@@ -124,18 +154,19 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
         <Text style={styles.txtBtn}>Buy Bitcoin</Text>
       </TouchableOpacity>
 
-      <ItemDetailPropertyDialog
-        isVisible={showItemPropertyDialog.isVisible}
-        id={showItemPropertyDialog.id}
-        onActivityClicked={() => {
-          setShowItemPropertyDialog({
-            ...showItemPropertyDialog,
-            ...{ isVisible: false },
-          });
-          setModalVisible(false);
-          console.log("------------------");
-        }}
-      />
+      {showItemPropertyDialog.isVisible && (
+        <ItemDetailPropertyDialog
+          id={showItemPropertyDialog.id}
+          children={showItemPropertyDialog.children}
+          onActivityClicked={() => {
+            setShowItemPropertyDialog({
+              ...showItemPropertyDialog,
+              ...{ isVisible: !showItemPropertyDialog.isVisible },
+            });
+            onItemClicked();
+          }}
+        />
+      )}
     </Modal>
   );
 };
