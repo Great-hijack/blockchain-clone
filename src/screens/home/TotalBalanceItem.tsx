@@ -24,11 +24,11 @@ const TotalBalanceItem = ({}) => {
       <View style={styles.dataContainer}>
         <Text style={styles.txtBalance}>Total Balance</Text>
         <Text style={styles.txtPrice}>
-          $ {getLocaleCurrencyString("5,254.32")}{" "}
+          ${getLocaleCurrencyString("23,240.32")}{" "}
         </Text>
         <View style={styles.percentContainer}>
           <Text style={styles.txtPercent}>
-            +${getLocaleCurrencyString("95.15")}(1.84%)
+            +${getLocaleCurrencyString("157.15")}(1.84%)
           </Text>
           <Text style={styles.txtHour}>24hrs</Text>
         </View>

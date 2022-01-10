@@ -40,7 +40,7 @@ const Activity = () => {
 
           <View style={styles.rightContentView}>
             <Text style={styles.txtTitle}>All Wallets</Text>
-            <Text style={styles.txtPrice}>$23, 240.83 USD</Text>
+            <Text style={styles.txtPrice}>$23,240.83 USD</Text>
           </View>
         </View>
 

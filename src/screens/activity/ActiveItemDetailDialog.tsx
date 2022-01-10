@@ -54,7 +54,7 @@ const ActiveItemDetailDialog: FC<ItemDetailDialogProps> = ({
       <ScrollView style={styles.scrollViewContainer}>
         <ActiveItemDetailDialogItem
           title="Transaction ID"
-          content="2k23k2k2k2k2h232l32l32l322k2k2k2k2"
+          content="2k23k22l32l32l322k2k2k2k2qagOa4crps80dr436ygiziek24idwO"
           isFileVisible={true}
         />
         <ActiveItemDetailDialogItem
@@ -74,12 +74,12 @@ const ActiveItemDetailDialog: FC<ItemDetailDialogProps> = ({
         />
         <ActiveItemDetailDialogItem
           title="To"
-          content="bc1qagOa4crps80dr436ygiziek24idwOlswsy"
+          content="bc1qagOa4crps80dr436ygiziek24idwOlswsy18c49e4cdf934lc76s90e"
           isFileVisible={true}
         />
         <ActiveItemDetailDialogItem
           title="From"
-          content="bc1qagOa4crps80dr436ygiziek24idwOlk6ui"
+          content="bc1qagOa4crps80dr436ygiziek24idwOlk6uiui82294029dl830d7dlc92"
           isFileVisible={true}
         />
       </ScrollView>
