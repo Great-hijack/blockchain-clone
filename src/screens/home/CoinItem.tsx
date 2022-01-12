@@ -22,7 +22,7 @@ interface CoinItemProps {
   itemSymbol: string;
   itemPrice: number;
   itemHour: number;
-  color: string;
+  color: string | undefined;
   id: number;
   onItemClick: (coinId: string) => void;
 }
@@ -33,7 +33,7 @@ const CoinItem: FC<CoinItemProps> = ({
   itemSymbol,
   itemPrice,
   itemHour,
-  color,
+  color = "red",
   id,
   onItemClick,
 }) => {
@@ -74,7 +74,7 @@ const CoinItem: FC<CoinItemProps> = ({
             style={styles.coinDatumBalance}
           >{`${itemBalance} ${itemSymbol}`}</Text>
           <Text style={styles.coinDatumPrice}>{`$${getLocaleCurrencyString(
-            itemPrice
+            itemPrice.toFixed(2)
           )}`}</Text>
         </View>
       </View>

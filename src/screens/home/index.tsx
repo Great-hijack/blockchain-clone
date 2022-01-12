@@ -13,6 +13,7 @@ import transactions, {
   AllTransactionState,
 } from "../../store/reducers/transactions";
 import { getCoinData, getCoinHistory } from "../../utils/utils";
+import cmpData from "../../constants/CoinMarketCapData";
 
 interface RootState {
   transactions: AllTransactionState;
@@ -108,36 +109,32 @@ const Home = () => {
         </View>
 
         <View style={styles.coinItemContainer}>
-          <CoinItem
-            itemTitle="Bitcoin"
-            itemBalance={0.000064}
-            itemSymbol="BTC"
-            itemPrice={4444}
-            itemHour={24}
-            color="#FB8F21"
-            id={1}
-            onItemClick={(coinId: string) => {
-              setShowItemDialog({
-                ...showItemDialog,
-                ...{ isVisible: true, id: 1 },
-              });
-            }}
-          />
-          <CoinItem
-            itemTitle="Ethereum"
-            itemBalance={1.000064}
-            itemSymbol="ETH"
-            itemPrice={898}
-            itemHour={24}
-            color="blue"
-            id={1027}
-            onItemClick={(coinId: string) => {
-              setShowItemDialog({
-                ...showItemDialog,
-                ...{ isVisible: true, id: 1027 },
-              });
-            }}
-          />
+          {allTransactionData.map((item, index) => {
+            const itemCmpData = cmpData.data.find(
+              (cmpCoin) => item.symbol === cmpCoin.symbol
+            );
+            return (
+              <CoinItem
+                key={index}
+                itemTitle={itemCmpData ? itemCmpData.name : "Undefined"}
+                itemBalance={item.sum}
+                itemSymbol={item.symbol}
+                itemPrice={item.sum * item.price}
+                itemHour={24}
+                color={itemCmpData ? itemCmpData.color : "red"}
+                id={itemCmpData ? itemCmpData.id : 1}
+                onItemClick={(coinId: string) => {
+                  setShowItemDialog({
+                    ...showItemDialog,
+                    ...{
+                      isVisible: true,
+                      id: itemCmpData ? itemCmpData.id : 1,
+                    },
+                  });
+                }}
+              />
+            );
+          })}
         </View>
       </ScrollView>
 
