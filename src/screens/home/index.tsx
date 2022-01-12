@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView, StatusBar } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
@@ -7,12 +8,39 @@ import Colors from "../../constants/Colors";
 import CoinItem from "./CoinItem";
 import TotalBalanceItem from "./TotalBalanceItem";
 import ItemDetailDialog from "./ItemDetailDialog";
+import * as transactionActions from "../../store/actions/transactions";
+import transactions, {
+  AllTransactionState,
+} from "../../store/reducers/transactions";
+import { getCoinHistory } from "../../utils/utils";
+
+interface RootState {
+  transactions: AllTransactionState;
+}
 
 const Home = () => {
+  const allTransactionData = useSelector(
+    (state: RootState) => state.transactions.allTransactionData
+  );
   const [showItemDialog, setShowItemDialog] = useState({
     isVisible: false,
     id: 0,
   });
+
+  const dispatch = useDispatch();
+
+  const loadData = useCallback(async () => {
+    try {
+      dispatch(transactionActions.fetchAllTransactionData("1"));
+    } catch (err) {
+      console.log(err);
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    loadData().then((res) => {});
+  }, [loadData]);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar

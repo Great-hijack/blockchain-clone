@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
 import { LineChart } from "react-native-svg-charts";
 
 import Colors from "../../constants/Colors";
-import { getLocaleCurrencyString } from "../../utils/utils";
+import { getCoinHistory, getLocaleCurrencyString } from "../../utils/utils";
 
 interface CoinItemProps {
   itemTitle: string;
@@ -35,7 +35,18 @@ const CoinItem: FC<CoinItemProps> = ({
   id,
   onItemClick,
 }) => {
+  const [graph, setGraph] = useState([]);
+  const loadGraph = useCallback(async () => {
+    try {
+      const response = await getCoinHistory(itemSymbol, 30);
+      setGraph(response);
+    } catch (e) {}
+  }, []);
+  useEffect(() => {
+    loadGraph();
+  }, []);
   const graphData = [50, 10, 40, 95, -4, -24, 85, 91, 35];
+
   return (
     <TouchableOpacity
       style={styles.container}
@@ -65,8 +76,8 @@ const CoinItem: FC<CoinItemProps> = ({
 
       <View style={styles.graphContainer}>
         <LineChart
-          style={{ height: 50, width: "60%" }}
-          data={graphData}
+          style={{ height: 50, width: "70%" }}
+          data={graph}
           svg={{ stroke: color, strokeWidth: 2 }}
           contentInset={{ top: 10, bottom: 0 }}
         />
