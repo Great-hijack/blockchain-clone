@@ -10,14 +10,17 @@ import {
 import { LineChart } from "react-native-svg-charts";
 
 import Colors from "../../constants/Colors";
-import { getCoinHistory, getLocaleCurrencyString } from "../../utils/utils";
+import {
+  getCoinData,
+  getCoinHistory,
+  getLocaleCurrencyString,
+} from "../../utils/utils";
 
 interface CoinItemProps {
   itemTitle: string;
   itemBalance: number;
   itemSymbol: string;
   itemPrice: number;
-  itemPercent: number;
   itemHour: number;
   color: string;
   id: number;
@@ -29,23 +32,25 @@ const CoinItem: FC<CoinItemProps> = ({
   itemBalance,
   itemSymbol,
   itemPrice,
-  itemPercent,
   itemHour,
   color,
   id,
   onItemClick,
 }) => {
   const [graph, setGraph] = useState([]);
-  const loadGraph = useCallback(async () => {
+  const [coinData, setCoinData] = useState<Number[]>([]);
+  const loadData = useCallback(async () => {
     try {
       const response = await getCoinHistory(itemSymbol, 30);
+      const coinDataResponse = await getCoinData(itemSymbol);
       setGraph(response);
+      setCoinData(coinDataResponse);
     } catch (e) {}
   }, []);
+
   useEffect(() => {
-    loadGraph();
+    loadData();
   }, []);
-  const graphData = [50, 10, 40, 95, -4, -24, 85, 91, 35];
 
   return (
     <TouchableOpacity
@@ -76,23 +81,23 @@ const CoinItem: FC<CoinItemProps> = ({
 
       <View style={styles.graphContainer}>
         <LineChart
-          style={{ height: 50, width: "70%" }}
+          style={{ height: 50, width: "80%" }}
           data={graph}
           svg={{ stroke: color, strokeWidth: 2 }}
           contentInset={{ top: 10, bottom: 0 }}
         />
         <Text style={styles.coinDatumBalance}>
-          {`$${getLocaleCurrencyString(itemPrice)}`}
+          {`$${getLocaleCurrencyString(coinData[0])}`}
         </Text>
         <View style={styles.percentContainer}>
           <Text
             style={{
-              color: itemPercent > 0 ? "#4D8F79" : "#CD3131",
+              color: coinData[1] > 0 ? "#4D8F79" : "#CD3131",
               fontSize: 16,
             }}
           >
             {" "}
-            {`${itemPercent}%`}{" "}
+            {`${coinData[1].toFixed(2)}%`}{" "}
           </Text>
           <Text style={styles.coinDatumPrice}>{`${itemHour} hrs`} </Text>
         </View>
@@ -143,7 +148,7 @@ const styles = StyleSheet.create({
   },
   graphContainer: {
     flexDirection: "column",
-    width: 90,
+    width: 100,
   },
   percentContainer: {
     flexDirection: "row",

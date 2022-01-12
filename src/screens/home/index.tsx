@@ -75,7 +75,6 @@ const Home = () => {
             itemBalance={0.000064}
             itemSymbol="BTC"
             itemPrice={4444}
-            itemPercent={23}
             itemHour={24}
             color="#FB8F21"
             id={1}
@@ -91,7 +90,6 @@ const Home = () => {
             itemBalance={1.000064}
             itemSymbol="ETH"
             itemPrice={898}
-            itemPercent={-0.23}
             itemHour={24}
             color="blue"
             id={1027}
