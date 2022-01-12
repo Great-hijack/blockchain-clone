@@ -12,7 +12,7 @@ import * as transactionActions from "../../store/actions/transactions";
 import transactions, {
   AllTransactionState,
 } from "../../store/reducers/transactions";
-import { getCoinHistory } from "../../utils/utils";
+import { getCoinData, getCoinHistory } from "../../utils/utils";
 
 interface RootState {
   transactions: AllTransactionState;
@@ -38,8 +38,16 @@ const Home = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    loadData().then((res) => {});
-  }, [loadData]);
+    loadData().then((res) => {
+      console.log("--------allTransactionData-------", allTransactionData);
+    });
+  }, [loadData, dispatch]);
+
+  // const totalBalance = allTransactionData.reduce(
+  //   (preVal, currentVal) => preVal + currentVal.price * currentVal.sum,
+  //   0
+  // );
+  console.log("-----total------", allTransactionData);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,6 +69,7 @@ const Home = () => {
             size={24}
             color={Colors.accentColor_100}
           />
+          {console.log("-----------sss-----", allTransactionData)}
         </View>
       </View>
 

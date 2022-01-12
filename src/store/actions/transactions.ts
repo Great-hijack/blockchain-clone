@@ -5,6 +5,7 @@ import { AllTransactionState } from "../reducers/transactions";
 import AllTransaction from "../../model/AllTransaction";
 import ActionTypes from "../types";
 import { API } from "../../api/urls";
+import { getCoinData } from "../../utils/utils";
 
 export const fetchAllTransactionData = (userId: string) => {
   return async (dispatch: ThunkDispatch<AllTransactionState, void, Action>) => {
@@ -25,20 +26,28 @@ export const fetchAllTransactionData = (userId: string) => {
           console.log("-----timeout-----", err);
         });
 
-      if (allTransactionDataJson) {
+      let allTransactionArray = [];
+      if (
+        allTransactionDataJson.hasOwnProperty("msg") &&
+        allTransactionDataJson.msg["data"]
+      ) {
+        allTransactionArray = allTransactionDataJson["msg"].data;
       }
-      const allTransactionData: AllTransaction[] = allTransactionDataJson
-        ? allTransactionDataJson.msg.data.map(
-            (item: { symbol: string; sum: number }) =>
-              new AllTransaction(item.symbol, item.sum)
-          )
-        : [];
+
+      let allTransactionData: AllTransaction[] = [];
+      for (let i = 0; i < allTransactionArray.length; i++) {
+        const symbol = allTransactionArray[i].symbol;
+        const price = await getCoinData(symbol);
+        const sum = allTransactionArray[i].sum;
+        allTransactionData.push(
+          new AllTransaction(symbol, sum, Number(price[0]))
+        );
+      }
 
       dispatch({
         type: ActionTypes.SET_ALL_TRANSACTION,
         allTransactionData: allTransactionData,
       });
-      return { success: 1 };
     } catch (err) {
       console.log("-----error-------", err);
       throw err;

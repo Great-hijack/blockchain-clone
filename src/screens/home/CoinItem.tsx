@@ -38,7 +38,7 @@ const CoinItem: FC<CoinItemProps> = ({
   onItemClick,
 }) => {
   const [graph, setGraph] = useState([]);
-  const [coinData, setCoinData] = useState<Number[]>([]);
+  const [coinData, setCoinData] = useState<Number[]>([0, 0]);
   const loadData = useCallback(async () => {
     try {
       const response = await getCoinHistory(itemSymbol, 30);

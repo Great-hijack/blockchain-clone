@@ -15,8 +15,10 @@ export default (state = initialState, action: AnyAction) => {
   switch (action.type) {
     case ActionTypes.SET_ALL_TRANSACTION:
       return {
+        ...state,
         allTransactionData: action.allTransactionData,
       };
+    default:
+      return state;
   }
-  return state;
 };
