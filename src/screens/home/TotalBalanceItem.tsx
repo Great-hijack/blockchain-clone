@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
   },
   txtPercent: {
     fontSize: 16,
+    fontFamily: "Roboto-Medium",
   },
   txtHour: {
     color: Colors.accentColor_100,
