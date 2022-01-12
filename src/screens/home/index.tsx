@@ -136,6 +136,13 @@ const Home = () => {
             );
           })}
         </View>
+
+        <View
+          style={{
+            borderTopWidth: StyleSheet.hairlineWidth,
+            borderColor: Colors.accentColor_100,
+          }}
+        ></View>
       </ScrollView>
 
       {showItemDialog.isVisible && (
@@ -192,7 +199,6 @@ const styles = StyleSheet.create({
     marginTop: -10,
   },
   coinItemContainer: {
-    paddingBottom: 40,
     marginTop: -30,
   },
   buttonContainer: {
