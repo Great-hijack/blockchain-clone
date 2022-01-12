@@ -26,7 +26,11 @@ const Home = () => {
     isVisible: false,
     id: 0,
   });
-
+  const [balanceData, setBalanceData] = useState({
+    totalBalance: 0,
+    changedBalance: 0,
+    changedPercent: 0,
+  });
   const dispatch = useDispatch();
 
   const loadData = useCallback(async () => {
@@ -37,17 +41,39 @@ const Home = () => {
     }
   }, [dispatch]);
 
-  useEffect(() => {
-    loadData().then((res) => {
-      console.log("--------allTransactionData-------", allTransactionData);
-    });
-  }, [loadData, dispatch]);
+  const loadCoinData = useCallback(async () => {
+    try {
+      let allChangedPrice = 0;
+      const totalBalance = allTransactionData.reduce(
+        (preVal, currentVal) => preVal + currentVal.price * currentVal.sum,
+        0
+      );
+      for (let i = 0; i < allTransactionData.length; i++) {
+        const coinDataResponse = await getCoinData(
+          allTransactionData[i].symbol
+        );
+        const changedPrice =
+          Number(coinDataResponse[2]) * allTransactionData[i].sum;
+        allChangedPrice = allChangedPrice + changedPrice;
+      }
+      const changedPercent =
+        (totalBalance * 100) / (totalBalance - allChangedPrice) - 100;
 
-  // const totalBalance = allTransactionData.reduce(
-  //   (preVal, currentVal) => preVal + currentVal.price * currentVal.sum,
-  //   0
-  // );
-  console.log("-----total------", allTransactionData);
+      setBalanceData({
+        ...balanceData,
+        ...{
+          totalBalance: totalBalance,
+          changedBalance: allChangedPrice,
+          changedPercent: changedPercent,
+        },
+      });
+    } catch (e) {}
+  }, []);
+
+  useEffect(() => {
+    loadData().then((res) => {});
+    loadCoinData();
+  }, [loadData, dispatch]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -69,13 +95,16 @@ const Home = () => {
             size={24}
             color={Colors.accentColor_100}
           />
-          {console.log("-----------sss-----", allTransactionData)}
         </View>
       </View>
 
       <ScrollView style={styles.scrollContainer}>
         <View style={styles.totalItemContainer}>
-          <TotalBalanceItem />
+          <TotalBalanceItem
+            totalBalance={balanceData.totalBalance}
+            changedBalance={balanceData.changedBalance}
+            changedPercent={balanceData.changedPercent}
+          />
         </View>
 
         <View style={styles.coinItemContainer}>

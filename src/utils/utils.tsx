@@ -49,6 +49,7 @@ export const getCoinData = async (coin: string) => {
     ) {
       coinData.push(coinDataJson.RAW[coin]["USD"].PRICE);
       coinData.push(coinDataJson.RAW[coin]["USD"].CHANGEPCT24HOUR);
+      coinData.push(coinDataJson.RAW[coin]["USD"].CHANGE24HOUR);
     }
     return coinData;
   } catch (e) {

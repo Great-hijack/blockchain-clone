@@ -5,7 +5,17 @@ import { PieChart } from "react-native-svg-charts";
 import Colors from "../../constants/Colors";
 import { getLocaleCurrencyString } from "../../utils/utils";
 
-const TotalBalanceItem = ({}) => {
+interface TotalBalanceItemProps {
+  totalBalance: number;
+  changedBalance: number;
+  changedPercent: number;
+}
+
+const TotalBalanceItem: FC<TotalBalanceItemProps> = ({
+  totalBalance,
+  changedBalance,
+  changedPercent,
+}) => {
   const pieChartData = [
     {
       key: 1,
@@ -24,11 +34,18 @@ const TotalBalanceItem = ({}) => {
       <View style={styles.dataContainer}>
         <Text style={styles.txtBalance}>Total Balance</Text>
         <Text style={styles.txtPrice}>
-          ${getLocaleCurrencyString("23,240.32")}{" "}
+          ${getLocaleCurrencyString(Math.abs(totalBalance).toFixed(2))}{" "}
         </Text>
         <View style={styles.percentContainer}>
-          <Text style={styles.txtPercent}>
-            +${getLocaleCurrencyString("157.15")}(1.84%)
+          <Text
+            style={[
+              styles.txtPercent,
+              { color: changedBalance > 0 ? "#4D8F79" : "#CD3131" },
+            ]}
+          >
+            {`${changedBalance > 0 ? "+" : "-"}`}$
+            {getLocaleCurrencyString(Math.abs(changedBalance).toFixed(2))}(
+            {changedPercent.toFixed(2)}%)
           </Text>
           <Text style={styles.txtHour}>24hrs</Text>
         </View>
@@ -68,7 +85,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   txtPercent: {
-    color: "#4D8F79",
     fontSize: 16,
   },
   txtHour: {
