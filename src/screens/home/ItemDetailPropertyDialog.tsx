@@ -14,12 +14,22 @@ type tabScreenProp = BottomTabNavigationProp<RootStackParamList, "Home">;
 interface ItemDetailDialogPropertyProps {
   id: number;
   children: JSX.Element;
+  types: string;
+  price: number;
+  balance: number;
+  title: string;
+  symbol: string;
   onActivityClicked: () => void;
 }
 
 const ItemDetailPropertyDialog: FC<ItemDetailDialogPropertyProps> = ({
   id,
   children,
+  types,
+  price,
+  balance,
+  title,
+  symbol,
   onActivityClicked,
 }) => {
   const onActivityHandle = () => {
@@ -37,11 +47,11 @@ const ItemDetailPropertyDialog: FC<ItemDetailDialogPropertyProps> = ({
     >
       <View style={styles.DetailDialogItemContainer}>
         <DetailDialogItem
-          itemKey="Private Key Wallte"
-          itemTitle="Bitcoin"
-          itemBalance={0.0000064}
-          itemSymbol="BTC"
-          itemPrice={4444}
+          itemKey={types}
+          itemTitle={title}
+          itemBalance={balance}
+          itemSymbol={symbol}
+          itemPrice={price}
           id={id}
           children={children}
           onItemClick={(coinId: string) => {}}

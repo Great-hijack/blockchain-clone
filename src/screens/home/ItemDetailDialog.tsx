@@ -56,6 +56,11 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
         color="#FF911C"
       />
     ),
+    types: "Private Key Wallet",
+    price: 0,
+    balance: 0,
+    title: "Bitcoin",
+    symbol: "BTC",
   });
   const dispatch = useDispatch();
   const loadData = useCallback(async () => {
@@ -172,11 +177,16 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
                     id: id,
                     children: (
                       <MaterialCommunityIcons
-                        name="key"
+                        name={iconName}
                         size={12}
                         color="white"
                       />
                     ),
+                    types: item.types,
+                    price: item.sum * item.price,
+                    balance: item.sum,
+                    title: itemCmpData ? itemCmpData.name : "Undefined",
+                    symbol: item.symbol,
                   },
                 });
               }}
@@ -193,6 +203,11 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
         <ItemDetailPropertyDialog
           id={showItemPropertyDialog.id}
           children={showItemPropertyDialog.children}
+          types={showItemPropertyDialog.types}
+          price={showItemPropertyDialog.price}
+          balance={showItemPropertyDialog.balance}
+          title={showItemPropertyDialog.title}
+          symbol={showItemPropertyDialog.symbol}
           onActivityClicked={() => {
             setShowItemPropertyDialog({
               ...showItemPropertyDialog,
