@@ -14,6 +14,7 @@ import transactions, {
 } from "../../store/reducers/transactions";
 import { getCoinData, getCoinHistory } from "../../utils/utils";
 import cmpData from "../../constants/CoinMarketCapData";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 interface RootState {
   transactions: AllTransactionState;
@@ -27,6 +28,7 @@ const Home = () => {
     isVisible: false,
     id: 0,
   });
+  const [isLoading, setIsLoading] = useState(true);
   const [balanceData, setBalanceData] = useState({
     totalBalance: 0,
     changedBalance: 0,
@@ -73,7 +75,9 @@ const Home = () => {
 
   useEffect(() => {
     loadData().then((res) => {});
-    loadCoinData();
+    loadCoinData().then((res) => {
+      setIsLoading(false);
+    });
   }, [loadData, dispatch]);
 
   return (
@@ -82,6 +86,8 @@ const Home = () => {
         backgroundColor={Colors.secondaryColor}
         barStyle="dark-content"
       />
+      {isLoading && <LoadingSpinner />}
+
       <View style={styles.topBarContainer}>
         <Text style={styles.topBarTitle}>Home</Text>
         <View style={{ flexDirection: "row", justifyContent: "flex-start" }}>
