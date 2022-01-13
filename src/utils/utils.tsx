@@ -4,10 +4,47 @@ export const getLocaleCurrencyString: (value: String | Number) => String = (
   return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
-export const getCoinHistory = async (coin: string, count: number) => {
+export const API_PARAMS = {
+  "1H": {
+    url: "histominute",
+    limit: 60,
+    timeDiff: 60 * 60,
+  },
+  Day: {
+    url: "histominute",
+    limit: 24 * 60,
+    timeDiff: 24 * 60 * 60,
+  },
+  Week: {
+    url: "histohour",
+    limit: 24 * 7,
+    timeDiff: 7 * 24 * 60 * 60,
+  },
+  Month: {
+    url: "histohour",
+    limit: 24 * 30,
+    timeDiff: 30 * 24 * 60 * 60,
+  },
+  Year: {
+    url: "histoday",
+    limit: 365,
+    timeDiff: 365 * 24 * 60 * 60,
+  },
+  All: {
+    url: "histoday",
+    limit: 2000,
+    timeDiff: 2000 * 24 * 60 * 60,
+  },
+};
+
+export const getCoinHistory = async (
+  coin: string,
+  count: number,
+  range: string = "Day"
+) => {
   try {
     const coinHistoryJson = await fetch(
-      `https://min-api.cryptocompare.com/data/v2/histominute?fsym=${coin}&tsym=USD&limit=${count}`
+      `https://min-api.cryptocompare.com/data/v2/${API_PARAMS[range].url}?fsym=${coin}&tsym=USD&limit=${count}`
     )
       .then((res) => {
         return res.json();

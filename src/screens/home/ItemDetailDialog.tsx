@@ -30,6 +30,7 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
 }) => {
   const [coinData, setCoinData] = useState<Number[]>([0, 0, 0]);
   const [graph, setGraph] = useState<any[]>([]);
+  const [graphRange, setGraphRange] = useState("Day");
   const [graphMinMax, setGraphMinMax] = useState({
     max: 3450,
     min: 3300,
@@ -48,7 +49,11 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
   const loadData = useCallback(async () => {
     try {
       const coinDataResponse = await getCoinData(itemSymbol);
-      const response = await getCoinHistory(itemSymbol, 300);
+      const response = await getCoinHistory(
+        itemSymbol,
+        graphRange === "Week" ? 160 : 300,
+        graphRange
+      );
       let graphData: { x: any; y: any }[] = [];
       response.forEach((element: any, index: any) => {
         graphData.push({ x: index, y: element });
@@ -63,11 +68,11 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
       });
       setCoinData(coinDataResponse);
     } catch (e) {}
-  }, []);
+  }, [graphRange]);
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [loadData]);
   return (
     <Modal
       isVisible={true}
@@ -81,7 +86,7 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
         <Text style={styles.txtPriceTitle}>${coinData[0]}</Text>
         <View style={styles.percentContainer}>
           <Text style={styles.txtPercent}>{coinData[1].toFixed(2)}%</Text>
-          <Text style={styles.txtWeek}>1 week</Text>
+          <Text style={styles.txtWeek}>1 {graphRange.toLowerCase()}</Text>
         </View>
       </View>
 
@@ -90,7 +95,7 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
           style={{ height: 120, width: "100%", marginTop: 0 }}
           data={graph}
           padding={{ left: 0, bottom: 20, right: 0, top: 0 }}
-          xDomain={{ min: 0, max: 300 }}
+          xDomain={{ min: 0, max: graphRange === "Week" ? 160 : 300 }}
           yDomain={{ min: graphMinMax.min, max: graphMinMax.max }}
         >
           <Line
@@ -111,7 +116,11 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
       )}
 
       <View style={styles.segmentContainer}>
-        <WeekSegmentItem />
+        <WeekSegmentItem
+          onClicked={(title: string) => {
+            setGraphRange(title);
+          }}
+        />
       </View>
 
       <ScrollView style={styles.scrollViewContainer}>

@@ -34,28 +34,38 @@ const WeekItem: FC<WeekItemProps> = ({
   );
 };
 
-const WeekSegmentItem = () => {
+interface WeekProps {
+  onClicked: (title: string) => void;
+}
+
+const WeekSegmentItem: FC<WeekProps> = ({ onClicked }) => {
   const [segment, setSegment] = useState(0);
 
   const onSegment = (title: string) => {
     switch (title) {
       case "Day":
         setSegment(0);
+        onClicked("Day");
         break;
       case "Week":
         setSegment(1);
+        onClicked("Week");
         break;
       case "Month":
         setSegment(2);
+        onClicked("Month");
         break;
       case "Year":
         setSegment(3);
+        onClicked("Year");
         break;
       case "All":
         setSegment(4);
+        onClicked("All");
         break;
       default:
         setSegment(0);
+        onClicked("Day");
         break;
     }
   };
