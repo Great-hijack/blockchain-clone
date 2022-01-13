@@ -1,4 +1,4 @@
-import React, { FC, useState, useCallback, useEffect } from "react";
+import React, { FC, useState, useCallback, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -29,6 +29,11 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
   onItemClicked,
 }) => {
   const [coinData, setCoinData] = useState<Number[]>([0, 0, 0]);
+  const [graph, setGraph] = useState<any[]>([]);
+  const [graphMinMax, setGraphMinMax] = useState({
+    max: 3450,
+    min: 3300,
+  });
   const [showItemPropertyDialog, setShowItemPropertyDialog] = useState({
     isVisible: false,
     id: 0,
@@ -43,6 +48,19 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
   const loadData = useCallback(async () => {
     try {
       const coinDataResponse = await getCoinData(itemSymbol);
+      const response = await getCoinHistory(itemSymbol, 300);
+      let graphData: { x: any; y: any }[] = [];
+      response.forEach((element: any, index: any) => {
+        graphData.push({ x: index, y: element });
+      });
+      setGraph(graphData);
+      const max = Math.max(...response);
+      const min = Math.min(...response);
+
+      setGraphMinMax({
+        ...graphMinMax,
+        ...{ max: parseInt(max.toString()), min: parseInt(min.toString()) },
+      });
       setCoinData(coinDataResponse);
     } catch (e) {}
   }, []);
@@ -66,44 +84,31 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
           <Text style={styles.txtWeek}>1 week</Text>
         </View>
       </View>
-      <Chart
-        style={{ height: 120, width: "100%", marginTop: 0 }}
-        data={[
-          { x: 0, y: 12 },
-          { x: 1, y: 7 },
-          { x: 2, y: 6 },
-          { x: 3, y: 3 },
-          { x: 4, y: 5 },
-          { x: 5, y: 8 },
-          { x: 6, y: 12 },
-          { x: 7, y: 14 },
-          { x: 8, y: 12 },
-          { x: 9, y: 13.5 },
-          { x: 10, y: 18 },
-          { x: 11, y: 19 },
-          { x: 12, y: 14 },
-          { x: 13, y: 12 },
-          { x: 14, y: 19 },
-        ]}
-        padding={{ left: 0, bottom: 20, right: 0, top: 0 }}
-        xDomain={{ min: 0, max: 14 }}
-        yDomain={{ min: 0, max: 20 }}
-      >
-        <Line
-          theme={{ stroke: { color: "#159262", width: 1 } }}
-          tooltipComponent={
-            <Tooltip theme={{ formatter: ({ y }) => y.toFixed(2) }} />
-          }
-        />
-        <Area
-          theme={{
-            gradient: {
-              from: { color: "#159262", opacity: 0.6 },
-              to: { color: "#159262", opacity: 0.05 },
-            },
-          }}
-        />
-      </Chart>
+
+      {graph.length !== 0 && (
+        <Chart
+          style={{ height: 120, width: "100%", marginTop: 0 }}
+          data={graph}
+          padding={{ left: 0, bottom: 20, right: 0, top: 0 }}
+          xDomain={{ min: 0, max: 300 }}
+          yDomain={{ min: graphMinMax.min, max: graphMinMax.max }}
+        >
+          <Line
+            theme={{ stroke: { color: "#159262", width: 1 } }}
+            tooltipComponent={
+              <Tooltip theme={{ formatter: ({ y }) => y.toFixed(2) }} />
+            }
+          />
+          <Area
+            theme={{
+              gradient: {
+                from: { color: "#159262", opacity: 0.6 },
+                to: { color: "#159262", opacity: 0.05 },
+              },
+            }}
+          />
+        </Chart>
+      )}
 
       <View style={styles.segmentContainer}>
         <WeekSegmentItem />
