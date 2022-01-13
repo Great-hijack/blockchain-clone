@@ -52,7 +52,7 @@ const DetailDialogItem: FC<DetailDialogItemProps> = ({
 
       <View style={styles.graphContainer}>
         <Text style={styles.coinDatumTitle}>
-          {`$${getLocaleCurrencyString(itemPrice)}`}
+          {`$${getLocaleCurrencyString(itemPrice.toFixed(2))}`}
         </Text>
         <Text
           style={styles.coinDatumBalance}

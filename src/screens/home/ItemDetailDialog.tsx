@@ -5,17 +5,25 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
 import Modal from "react-native-modal";
 import { Chart, Line, Area, Tooltip } from "react-native-responsive-linechart";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { useSelector, useDispatch } from "react-redux";
 
 import WeekSegmentItem from "../../components/WeekSegmentItem";
-
+import cmpData from "../../constants/CoinMarketCapData";
 import Colors from "../../constants/Colors";
 import DetailDialogItem from "./DetailDialogItem";
 import ItemDetailPropertyDialog from "./ItemDetailPropertyDialog";
 import { getCoinData, getCoinHistory } from "../../utils/utils";
+import { AllTransactionState } from "../../store/reducers/transactions";
+import * as transactionActions from "../../store/actions/transactions";
+
+interface RootState {
+  transactions: AllTransactionState;
+}
 
 interface ItemDetailDialogProps {
   id: number;
@@ -28,6 +36,9 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
   itemSymbol,
   onItemClicked,
 }) => {
+  const typesTransactionData = useSelector(
+    (state: RootState) => state.transactions.typesTransactionData
+  );
   const [coinData, setCoinData] = useState<Number[]>([0, 0, 0]);
   const [graph, setGraph] = useState<any[]>([]);
   const [graphRange, setGraphRange] = useState("Day");
@@ -46,6 +57,7 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
       />
     ),
   });
+  const dispatch = useDispatch();
   const loadData = useCallback(async () => {
     try {
       const coinDataResponse = await getCoinData(itemSymbol);
@@ -70,8 +82,17 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
     } catch (e) {}
   }, [graphRange]);
 
+  const loadTypesTransactionData = useCallback(async () => {
+    try {
+      dispatch(transactionActions.fetchTypeTransactionData("1", itemSymbol));
+    } catch (err) {
+      console.log(err);
+    }
+  }, [dispatch]);
+
   useEffect(() => {
     loadData();
+    loadTypesTransactionData();
   }, [loadData]);
   return (
     <Modal
@@ -98,12 +119,7 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
           xDomain={{ min: 0, max: graphRange === "Week" ? 160 : 300 }}
           yDomain={{ min: graphMinMax.min, max: graphMinMax.max }}
         >
-          <Line
-            theme={{ stroke: { color: "#159262", width: 1 } }}
-            tooltipComponent={
-              <Tooltip theme={{ formatter: ({ y }) => y.toFixed(2) }} />
-            }
-          />
+          <Line theme={{ stroke: { color: "#159262", width: 1 } }} />
           <Area
             theme={{
               gradient: {
@@ -124,61 +140,49 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
       </View>
 
       <ScrollView style={styles.scrollViewContainer}>
-        <DetailDialogItem
-          itemKey="Private Key Wallte"
-          itemTitle="Bitcoin"
-          itemBalance={0.0000064}
-          itemSymbol="BTC"
-          itemPrice={4444}
-          id={id}
-          children={
-            <MaterialCommunityIcons name="key" size={12} color="white" />
-          }
-          onItemClick={(coinId: string) => {
-            setShowItemPropertyDialog({
-              ...showItemPropertyDialog,
-              ...{
-                isVisible: true,
-                id: id,
-                children: (
-                  <MaterialCommunityIcons name="key" size={12} color="white" />
-                ),
-              },
-            });
-          }}
-        />
-
-        <DetailDialogItem
-          itemKey="Trading Account"
-          itemTitle="Bitcoin"
-          itemBalance={0.000045}
-          itemSymbol="BTC"
-          itemPrice={234}
-          id={id}
-          children={
-            <MaterialCommunityIcons
-              name="arrow-top-right-bottom-left"
-              size={12}
-              color="white"
+        {typesTransactionData.map((item, index) => {
+          const itemCmpData = cmpData.data.find(
+            (cmpCoin) => item.symbol === cmpCoin.symbol
+          );
+          const iconName =
+            item.types === "Trading Account"
+              ? "arrow-top-right-bottom-left"
+              : "key";
+          return (
+            <DetailDialogItem
+              key={index}
+              itemKey={item.types}
+              itemTitle={itemCmpData ? itemCmpData.name : "Undefined"}
+              itemBalance={item.sum}
+              itemSymbol={item.symbol}
+              itemPrice={item.sum * item.price}
+              id={id}
+              children={
+                <MaterialCommunityIcons
+                  name={iconName}
+                  size={12}
+                  color="white"
+                />
+              }
+              onItemClick={(coinId: string) => {
+                setShowItemPropertyDialog({
+                  ...showItemPropertyDialog,
+                  ...{
+                    isVisible: true,
+                    id: id,
+                    children: (
+                      <MaterialCommunityIcons
+                        name="key"
+                        size={12}
+                        color="white"
+                      />
+                    ),
+                  },
+                });
+              }}
             />
-          }
-          onItemClick={(coinId: string) => {
-            setShowItemPropertyDialog({
-              ...showItemPropertyDialog,
-              ...{
-                isVisible: true,
-                id: id,
-                children: (
-                  <MaterialCommunityIcons
-                    name="arrow-top-right-bottom-left"
-                    size={12}
-                    color="white"
-                  />
-                ),
-              },
-            });
-          }}
-        />
+          );
+        })}
       </ScrollView>
 
       <TouchableOpacity style={styles.btnContainer} activeOpacity={0.8}>
