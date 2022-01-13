@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useCallback, useEffect } from "react";
 import {
   View,
   Text,
@@ -15,13 +15,20 @@ import WeekSegmentItem from "../../components/WeekSegmentItem";
 import Colors from "../../constants/Colors";
 import DetailDialogItem from "./DetailDialogItem";
 import ItemDetailPropertyDialog from "./ItemDetailPropertyDialog";
+import { getCoinData, getCoinHistory } from "../../utils/utils";
 
 interface ItemDetailDialogProps {
   id: number;
+  itemSymbol: string;
   onItemClicked: () => void;
 }
 
-const ItemDetailDialog: FC<ItemDetailDialogProps> = ({ id, onItemClicked }) => {
+const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
+  id,
+  itemSymbol,
+  onItemClicked,
+}) => {
+  const [coinData, setCoinData] = useState<Number[]>([0, 0, 0]);
   const [showItemPropertyDialog, setShowItemPropertyDialog] = useState({
     isVisible: false,
     id: 0,
@@ -33,6 +40,16 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({ id, onItemClicked }) => {
       />
     ),
   });
+  const loadData = useCallback(async () => {
+    try {
+      const coinDataResponse = await getCoinData(itemSymbol);
+      setCoinData(coinDataResponse);
+    } catch (e) {}
+  }, []);
+
+  useEffect(() => {
+    loadData();
+  }, []);
   return (
     <Modal
       isVisible={true}
@@ -42,10 +59,10 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({ id, onItemClicked }) => {
       backdropOpacity={0.1}
     >
       <View style={styles.titleContainer}>
-        <Text style={styles.txtCoinTitle}>Current BTC Price</Text>
-        <Text style={styles.txtPriceTitle}>$51,020.47</Text>
+        <Text style={styles.txtCoinTitle}>Current {itemSymbol} Price</Text>
+        <Text style={styles.txtPriceTitle}>${coinData[0]}</Text>
         <View style={styles.percentContainer}>
-          <Text style={styles.txtPercent}>7.29%</Text>
+          <Text style={styles.txtPercent}>{coinData[1].toFixed(2)}%</Text>
           <Text style={styles.txtWeek}>1 week</Text>
         </View>
       </View>

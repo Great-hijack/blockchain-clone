@@ -27,6 +27,7 @@ const Home = () => {
   const [showItemDialog, setShowItemDialog] = useState({
     isVisible: false,
     id: 0,
+    itemSymbol: "BTC",
   });
   const [isLoading, setIsLoading] = useState(true);
   const [balanceData, setBalanceData] = useState({
@@ -129,12 +130,13 @@ const Home = () => {
                 itemHour={24}
                 color={itemCmpData ? itemCmpData.color : "red"}
                 id={itemCmpData ? itemCmpData.id : 1}
-                onItemClick={(coinId: string) => {
+                onItemClick={(symbol: string) => {
                   setShowItemDialog({
                     ...showItemDialog,
                     ...{
                       isVisible: true,
                       id: itemCmpData ? itemCmpData.id : 1,
+                      itemSymbol: symbol,
                     },
                   });
                 }}
@@ -154,6 +156,7 @@ const Home = () => {
       {showItemDialog.isVisible && (
         <ItemDetailDialog
           id={showItemDialog.id}
+          itemSymbol={showItemDialog.itemSymbol}
           onItemClicked={() => {
             setShowItemDialog({
               ...showItemDialog,

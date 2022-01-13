@@ -24,7 +24,7 @@ interface CoinItemProps {
   itemHour: number;
   color: string | undefined;
   id: number;
-  onItemClick: (coinId: string) => void;
+  onItemClick: (symbol: string) => void;
 }
 
 const CoinItem: FC<CoinItemProps> = ({
@@ -38,7 +38,7 @@ const CoinItem: FC<CoinItemProps> = ({
   onItemClick,
 }) => {
   const [graph, setGraph] = useState([]);
-  const [coinData, setCoinData] = useState<Number[]>([0, 0]);
+  const [coinData, setCoinData] = useState<Number[]>([0, 0, 0]);
   const loadData = useCallback(async () => {
     try {
       const response = await getCoinHistory(itemSymbol, 30);
@@ -57,7 +57,7 @@ const CoinItem: FC<CoinItemProps> = ({
       style={styles.container}
       activeOpacity={0.8}
       onPress={() => {
-        onItemClick(itemTitle);
+        onItemClick(itemSymbol);
       }}
     >
       <View style={styles.coinDataContainer}>
