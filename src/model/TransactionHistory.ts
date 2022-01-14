@@ -16,8 +16,8 @@ export default class TransactionHistory {
     transactionid: string,
     date: number,
     tos: string,
-    types: string,
     froms: string,
+    types: string,
     price: number
   ) {
     this.symbol = symbol;

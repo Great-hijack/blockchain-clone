@@ -8,17 +8,38 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import moment from "moment";
 
 import Colors from "../../constants/Colors";
 import ActiveItemDetailDialogItem from "./ActiveItemDetailDialogItem";
+import transactions from "../../store/reducers/transactions";
+import { getLocaleCurrencyString } from "../../utils/utils";
 
 interface ItemDetailDialogProps {
+  isSent: boolean;
+  transactionId: string;
+  symbol: string;
+  date: number;
+  balance: number;
+  total: number;
+  tos: string;
+  froms: string;
   onItemClicked: () => void;
 }
 
 const ActiveItemDetailDialog: FC<ItemDetailDialogProps> = ({
+  isSent,
+  transactionId,
+  symbol,
+  date,
+  total,
+  balance,
+  tos,
+  froms,
   onItemClicked,
 }) => {
+  const receiveSent = isSent ? `Sent` : `Received`;
+  const formatDate = moment.unix(date).format("MMM DD,YYYY [at] h:mm A");
   return (
     <Modal
       isVisible={true}
@@ -29,7 +50,7 @@ const ActiveItemDetailDialog: FC<ItemDetailDialogProps> = ({
     >
       <View style={styles.titleContainer}>
         <View style={styles.closeView}></View>
-        <Text style={styles.txtCoinTitle}>Received</Text>
+        <Text style={styles.txtCoinTitle}>{receiveSent}</Text>
         <TouchableOpacity
           style={styles.closeView}
           activeOpacity={0.7}
@@ -43,7 +64,7 @@ const ActiveItemDetailDialog: FC<ItemDetailDialogProps> = ({
         </TouchableOpacity>
       </View>
 
-      <Text style={styles.txtBalance}>0.10193023 BTC</Text>
+      <Text style={styles.txtBalance}>{`${balance} ${symbol}`}</Text>
 
       <View style={styles.completeView}>
         <View style={styles.completeLeftView}>
@@ -54,32 +75,32 @@ const ActiveItemDetailDialog: FC<ItemDetailDialogProps> = ({
       <ScrollView style={styles.scrollViewContainer}>
         <ActiveItemDetailDialogItem
           title="Transaction ID"
-          content="2k23k22l32l32l322k2k2k2k2qagOa4crps80dr436ygiziek24idwO"
+          content={transactionId}
           isFileVisible={true}
         />
         <ActiveItemDetailDialogItem
           title="Date"
-          content="Dec 24, 2021 at 2:12 PM"
+          content={formatDate}
           isFileVisible={false}
         />
         <ActiveItemDetailDialogItem
           title="Total"
-          content="$5,278.07"
+          content={`$${getLocaleCurrencyString(total.toFixed(2))}`}
           isFileVisible={false}
         />
         <ActiveItemDetailDialogItem
           title="Network Free"
-          content="0.000001923 BTC / $1.01"
+          content={`0.000001923 ${symbol} / $1.01`}
           isFileVisible={false}
         />
         <ActiveItemDetailDialogItem
           title="To"
-          content="bc1qagOa4crps80dr436ygiziek24idwOlswsy18c49e4cdf934lc76s90e"
+          content={tos}
           isFileVisible={true}
         />
         <ActiveItemDetailDialogItem
           title="From"
-          content="bc1qagOa4crps80dr436ygiziek24idwOlk6uiui82294029dl830d7dlc92"
+          content={froms}
           isFileVisible={true}
         />
       </ScrollView>

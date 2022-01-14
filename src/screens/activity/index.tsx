@@ -14,6 +14,7 @@ import {
   MaterialIcons,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
+import moment from "moment";
 
 import Colors from "../../constants/Colors";
 import ActivityItem from "./ActivityItem";
@@ -36,7 +37,17 @@ const Activity = () => {
     (state: RootState) => state.transactions.transactionHistoryData
   );
   const [scrollRefreshing, setscrollRefreshing] = useState(false);
-  const [isDialogVisible, setDialogVisible] = useState(false);
+  const [isDialogVisible, setDialogVisible] = useState({
+    isVisible: false,
+    isSent: false,
+    symbol: "BTC",
+    transactionId: "",
+    date: 0,
+    balance: 0,
+    total: 0,
+    tos: "",
+    froms: "",
+  });
   const [balanceData, setBalanceData] = useState({
     totalBalance: 0,
     changedBalance: 0,
@@ -73,7 +84,6 @@ const Activity = () => {
     loadData().then((res) => {});
     loadCoinData();
   }, [loadData, dispatch]);
-  console.log("---------------activity--------", transactionHistoryData);
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -128,15 +138,30 @@ const Activity = () => {
           const iconName = item.issent
             ? "arrow-top-right"
             : "arrow-bottom-left";
+          const date = moment.unix(item.date).format("MMM DD,YYYY");
           return (
             <ActivityItem
+              key={index}
               title={receiveSent}
-              content="Dec 24, 2021"
+              content={date}
               balance={item.balance.toString()}
               symbol={item.symbol}
               usdPrice={(item.balance * item.price).toFixed(2).toString()}
               onItemClick={() => {
-                setDialogVisible(true);
+                setDialogVisible({
+                  ...isDialogVisible,
+                  ...{
+                    isVisible: true,
+                    isSent: item.issent,
+                    symbol: item.symbol,
+                    transactionId: item.transactionid,
+                    date: item.date,
+                    balance: item.balance,
+                    total: item.balance * item.price,
+                    tos: item.tos,
+                    froms: item.froms,
+                  },
+                });
               }}
             >
               <MaterialCommunityIcons
@@ -151,10 +176,21 @@ const Activity = () => {
         <View style={{ height: 20 }}></View>
       </ScrollView>
 
-      {isDialogVisible && (
+      {isDialogVisible.isVisible && (
         <ActiveItemDetailDialog
+          isSent={isDialogVisible.isSent}
+          transactionId={isDialogVisible.transactionId}
+          symbol={isDialogVisible.symbol}
+          date={isDialogVisible.date}
+          balance={isDialogVisible.balance}
+          total={isDialogVisible.total}
+          froms={isDialogVisible.froms}
+          tos={isDialogVisible.tos}
           onItemClicked={() => {
-            setDialogVisible(false);
+            setDialogVisible({
+              ...isDialogVisible,
+              ...{ isVisible: false },
+            });
           }}
         />
       )}
