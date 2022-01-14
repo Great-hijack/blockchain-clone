@@ -68,7 +68,7 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
       const coinDataResponse = await getCoinData(itemSymbol);
       const response = await getCoinHistory(
         itemSymbol,
-        graphRange === "Week" ? 160 : 300,
+        graphRange === "Week" ? 160 : graphRange === "All" ? 500 : 300,
         graphRange
       );
       let graphData: { x: any; y: any }[] = [];
@@ -121,7 +121,10 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
           style={{ height: 120, width: "100%", marginTop: 0 }}
           data={graph}
           padding={{ left: 0, bottom: 20, right: 0, top: 0 }}
-          xDomain={{ min: 0, max: graphRange === "Week" ? 160 : 300 }}
+          xDomain={{
+            min: 0,
+            max: graphRange === "Week" ? 160 : graphRange === "All" ? 500 : 300,
+          }}
           yDomain={{ min: graphMinMax.min, max: graphMinMax.max }}
         >
           <Line theme={{ stroke: { color: "#159262", width: 1 } }} />
