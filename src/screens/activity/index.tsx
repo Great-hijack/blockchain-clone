@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   View,
   Text,
@@ -17,10 +18,62 @@ import {
 import Colors from "../../constants/Colors";
 import ActivityItem from "./ActivityItem";
 import ActiveItemDetailDialog from "./ActiveItemDetailDialog";
+import * as transactionActions from "../../store/actions/transactions";
+import transactions, {
+  AllTransactionState,
+} from "../../store/reducers/transactions";
+import { getCoinData, getLocaleCurrencyString } from "../../utils/utils";
+
+interface RootState {
+  transactions: AllTransactionState;
+}
 
 const Activity = () => {
+  const allTransactionData = useSelector(
+    (state: RootState) => state.transactions.allTransactionData
+  );
+  const transactionHistoryData = useSelector(
+    (state: RootState) => state.transactions.transactionHistoryData
+  );
   const [scrollRefreshing, setscrollRefreshing] = useState(false);
   const [isDialogVisible, setDialogVisible] = useState(false);
+  const [balanceData, setBalanceData] = useState({
+    totalBalance: 0,
+    changedBalance: 0,
+    changedPercent: 0,
+  });
+  const dispatch = useDispatch();
+
+  const loadData = useCallback(async () => {
+    try {
+      dispatch(transactionActions.fetchAllTransactionData("1"));
+      dispatch(transactionActions.fetchTransactionHistoryData("1"));
+    } catch (err) {
+      console.log(err);
+    }
+  }, [dispatch]);
+
+  const loadCoinData = useCallback(async () => {
+    try {
+      const totalBalance = allTransactionData.reduce(
+        (preVal, currentVal) => preVal + currentVal.price * currentVal.sum,
+        0
+      );
+
+      setBalanceData({
+        ...balanceData,
+        ...{
+          totalBalance: totalBalance,
+        },
+      });
+    } catch (e) {}
+  }, []);
+
+  useEffect(() => {
+    loadData().then((res) => {});
+    loadCoinData();
+  }, [loadData, dispatch]);
+  console.log("---------------activity--------", transactionHistoryData);
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -40,7 +93,13 @@ const Activity = () => {
 
           <View style={styles.rightContentView}>
             <Text style={styles.txtTitle}>All Wallets</Text>
-            <Text style={styles.txtPrice}>$23,240.83 USD</Text>
+            <Text style={styles.txtPrice}>
+              $
+              {getLocaleCurrencyString(
+                Math.abs(balanceData.totalBalance).toFixed(2)
+              )}{" "}
+              USD
+            </Text>
           </View>
         </View>
 
@@ -62,120 +121,33 @@ const Activity = () => {
           />
         }
       >
-        <ActivityItem
-          title="Received BTC"
-          content="Dec 24, 2021"
-          balance="0.10192344"
-          symbol="BTC"
-          usdPrice="5,234.01"
-          onItemClick={() => {
-            setDialogVisible(true);
-          }}
-        >
-          <MaterialCommunityIcons
-            name="arrow-bottom-left"
-            size={22}
-            color="#FF911C"
-          />
-        </ActivityItem>
-        <ActivityItem
-          title="Received BTC"
-          content="Dec 23, 2021"
-          balance="0.12192344"
-          symbol="BTC"
-          usdPrice="5,524.01"
-          onItemClick={() => {
-            setDialogVisible(true);
-          }}
-        >
-          <MaterialCommunityIcons
-            name="arrow-bottom-left"
-            size={22}
-            color="#FF911C"
-          />
-        </ActivityItem>
-        <ActivityItem
-          title="Received BTC"
-          content="Dec 22, 2021"
-          balance="0.0001923"
-          symbol="BTC"
-          usdPrice="234.01"
-          onItemClick={() => {
-            setDialogVisible(true);
-          }}
-        >
-          <MaterialCommunityIcons
-            name="arrow-bottom-left"
-            size={22}
-            color="#FF911C"
-          />
-        </ActivityItem>
-        <ActivityItem
-          title="Received BTC"
-          content="Dec 21, 2021"
-          balance="0.00014344"
-          symbol="BTC"
-          usdPrice="124.01"
-          onItemClick={() => {
-            setDialogVisible(true);
-          }}
-        >
-          <MaterialCommunityIcons
-            name="arrow-bottom-left"
-            size={22}
-            color="#FF911C"
-          />
-        </ActivityItem>
-        <ActivityItem
-          title="Received BTC"
-          content="Dec 20, 2021"
-          balance="0.0082344"
-          symbol="BTC"
-          usdPrice="4,234.01"
-          onItemClick={() => {
-            setDialogVisible(true);
-          }}
-        >
-          <MaterialCommunityIcons
-            name="arrow-bottom-left"
-            size={22}
-            color="#FF911C"
-          />
-        </ActivityItem>
+        {transactionHistoryData.map((item, index) => {
+          const receiveSent = item.issent
+            ? `Sent ${item.symbol}`
+            : `Received ${item.symbol}`;
+          const iconName = item.issent
+            ? "arrow-top-right"
+            : "arrow-bottom-left";
+          return (
+            <ActivityItem
+              title={receiveSent}
+              content="Dec 24, 2021"
+              balance={item.balance.toString()}
+              symbol={item.symbol}
+              usdPrice={(item.balance * item.price).toFixed(2).toString()}
+              onItemClick={() => {
+                setDialogVisible(true);
+              }}
+            >
+              <MaterialCommunityIcons
+                name={iconName}
+                size={22}
+                color="#FF911C"
+              />
+            </ActivityItem>
+          );
+        })}
 
-        <ActivityItem
-          title="Sent BTC"
-          content="Dec 19, 2021"
-          balance="0.0082344"
-          symbol="BTC"
-          usdPrice="4,234.01"
-          onItemClick={() => {
-            setDialogVisible(true);
-          }}
-        >
-          <MaterialCommunityIcons
-            name="arrow-top-right"
-            size={22}
-            color="#FF911C"
-          />
-        </ActivityItem>
-
-        <ActivityItem
-          title="Received BTC"
-          content="Dec 18, 2021"
-          balance="0.0082344"
-          symbol="BTC"
-          usdPrice="4,234.01"
-          onItemClick={() => {
-            setDialogVisible(true);
-          }}
-        >
-          <MaterialCommunityIcons
-            name="arrow-bottom-left"
-            size={22}
-            color="#FF911C"
-          />
-        </ActivityItem>
         <View style={{ height: 20 }}></View>
       </ScrollView>
 
