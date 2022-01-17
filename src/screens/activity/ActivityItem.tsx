@@ -2,6 +2,7 @@ import React, { JSXElementConstructor, FC } from "react";
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import Colors from "../../constants/Colors";
+import { getLocaleCurrencyString } from "../../utils/utils";
 
 interface ActivityItemProps {
   title: string;
@@ -43,7 +44,9 @@ const ActivityItem: FC<ActivityItemProps> = ({
         <Text style={styles.txtTitle}>
           {balance} {symbol}
         </Text>
-        <Text style={styles.txtContent}>${usdPrice}</Text>
+        <Text style={styles.txtContent}>
+          ${getLocaleCurrencyString(usdPrice)}
+        </Text>
       </View>
     </TouchableOpacity>
   );

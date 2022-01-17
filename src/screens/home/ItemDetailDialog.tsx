@@ -17,7 +17,11 @@ import cmpData from "../../constants/CoinMarketCapData";
 import Colors from "../../constants/Colors";
 import DetailDialogItem from "./DetailDialogItem";
 import ItemDetailPropertyDialog from "./ItemDetailPropertyDialog";
-import { getCoinData, getCoinHistory } from "../../utils/utils";
+import {
+  getCoinData,
+  getCoinHistory,
+  getLocaleCurrencyString,
+} from "../../utils/utils";
 import { AllTransactionState } from "../../store/reducers/transactions";
 import * as transactionActions from "../../store/actions/transactions";
 
@@ -109,7 +113,9 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
     >
       <View style={styles.titleContainer}>
         <Text style={styles.txtCoinTitle}>Current {itemSymbol} Price</Text>
-        <Text style={styles.txtPriceTitle}>${coinData[0]}</Text>
+        <Text style={styles.txtPriceTitle}>
+          ${getLocaleCurrencyString(coinData[0])}
+        </Text>
         <View style={styles.percentContainer}>
           <Text style={styles.txtPercent}>{coinData[1].toFixed(2)}%</Text>
           <Text style={styles.txtWeek}>1 {graphRange.toLowerCase()}</Text>
