@@ -9,18 +9,18 @@ import AllTransaction from "../../model/AllTransaction";
 import TypesTransaction from "../../model/TypesTransaction";
 import TransactionHistory from "../../model/TransactionHistory";
 
-export const fetchAllTransactionData = (userId: string) => {
+export const fetchAllTransactionData = (profileId: string) => {
   return async (dispatch: ThunkDispatch<AllTransactionState, void, Action>) => {
     try {
       const allTransactionDataJson = await fetch(
-        `${API.BASE_URL}/api/v1/auth/login`,
+        `${API.BASE_URL}/api/v1/transactions/symbols_group`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
             "Access-Control-Origin": "*",
           },
-          body: JSON.stringify({ userid: userId }),
+          body: JSON.stringify({ profileid: profileId }),
         }
       )
         .then((res) => res.json())
@@ -38,7 +38,7 @@ export const fetchAllTransactionData = (userId: string) => {
 
       let allTransactionData: AllTransaction[] = [];
       for (let i = 0; i < allTransactionArray.length; i++) {
-        const symbol = allTransactionArray[i].symbol;
+        const symbol = allTransactionArray[i].coinsymbol;
         const price = await getCoinData(symbol);
         const sum = allTransactionArray[i].sum;
         allTransactionData.push(
@@ -57,7 +57,7 @@ export const fetchAllTransactionData = (userId: string) => {
   };
 };
 
-export const fetchTypeTransactionData = (userId: string, symbol: string) => {
+export const fetchTypeTransactionData = (profileId: string, symbol: string) => {
   return async (dispatch: ThunkDispatch<AllTransactionState, void, Action>) => {
     try {
       const typesTransactionDataJson = await fetch(
@@ -68,7 +68,7 @@ export const fetchTypeTransactionData = (userId: string, symbol: string) => {
             "Content-Type": "application/json",
             "Access-Control-Origin": "*",
           },
-          body: JSON.stringify({ userid: userId, symbol: symbol }),
+          body: JSON.stringify({ profileid: profileId, coinsymbol: symbol }),
         }
       )
         .then((res) => res.json())
@@ -86,7 +86,7 @@ export const fetchTypeTransactionData = (userId: string, symbol: string) => {
 
       let typesTransactionData: TypesTransaction[] = [];
       for (let i = 0; i < typesTransactionArray.length; i++) {
-        const symbol = typesTransactionArray[i].symbol;
+        const symbol = typesTransactionArray[i].coinsymbol;
         const price = await getCoinData(symbol);
         const sum = typesTransactionArray[i].sum;
         const types = typesTransactionArray[i].types;
@@ -105,7 +105,7 @@ export const fetchTypeTransactionData = (userId: string, symbol: string) => {
   };
 };
 
-export const fetchTransactionHistoryData = (userId: string) => {
+export const fetchTransactionHistoryData = (profileId: string) => {
   return async (dispatch: ThunkDispatch<AllTransactionState, void, Action>) => {
     try {
       const transactionHistoryDataJson = await fetch(
@@ -116,7 +116,7 @@ export const fetchTransactionHistoryData = (userId: string) => {
             "Content-Type": "application/json",
             "Access-Control-Origin": "*",
           },
-          body: JSON.stringify({ userid: userId }),
+          body: JSON.stringify({ profileid: profileId }),
         }
       )
         .then((res) => res.json())
@@ -135,12 +135,12 @@ export const fetchTransactionHistoryData = (userId: string) => {
 
       let transactionHistoryData: TransactionHistory[] = [];
       for (let i = 0; i < transactionHistoryArray.length; i++) {
-        const symbol = transactionHistoryArray[i].symbol;
+        const symbol = transactionHistoryArray[i].coinsymbol;
         const price = await getCoinData(symbol);
         const issent = transactionHistoryArray[i].issent;
         const balance = transactionHistoryArray[i].balance;
         const transactionid = transactionHistoryArray[i].transactionid;
-        const date = transactionHistoryArray[i].date;
+        const date = transactionHistoryArray[i].exchangetime;
         const tos = transactionHistoryArray[i].tos;
         const froms = transactionHistoryArray[i].froms;
         const types = transactionHistoryArray[i].types;

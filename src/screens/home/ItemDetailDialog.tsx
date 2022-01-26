@@ -93,7 +93,9 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
 
   const loadTypesTransactionData = useCallback(async () => {
     try {
-      dispatch(transactionActions.fetchTypeTransactionData("1", itemSymbol));
+      dispatch(
+        transactionActions.fetchTypeTransactionData("75fi73Fk", itemSymbol)
+      );
     } catch (err) {
       console.log(err);
     }

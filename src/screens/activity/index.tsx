@@ -57,8 +57,8 @@ const Activity = () => {
 
   const loadData = useCallback(async () => {
     try {
-      dispatch(transactionActions.fetchAllTransactionData("1"));
-      dispatch(transactionActions.fetchTransactionHistoryData("1"));
+      dispatch(transactionActions.fetchAllTransactionData("75fi73Fk"));
+      dispatch(transactionActions.fetchTransactionHistoryData("75fi73Fk"));
     } catch (err) {
       console.log(err);
     }

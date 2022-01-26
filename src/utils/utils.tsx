@@ -78,6 +78,7 @@ export const getCoinData = async (coin: string) => {
       .catch((err) => {
         throw err;
       });
+
     let coinData: Number[] = [];
     if (
       coinDataJson.hasOwnProperty("RAW") &&

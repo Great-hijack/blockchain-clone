@@ -39,7 +39,7 @@ const Home = () => {
 
   const loadData = useCallback(async () => {
     try {
-      dispatch(transactionActions.fetchAllTransactionData("1"));
+      dispatch(transactionActions.fetchAllTransactionData("75fi73Fk"));
     } catch (err) {
       console.log(err);
     }
