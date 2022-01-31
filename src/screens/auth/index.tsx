@@ -11,8 +11,6 @@ import {
 } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Asset } from "expo-asset";
-import { useFonts } from "expo-font";
 
 import Colors from "../../constants/Colors";
 import Images from "../../constants/Images";
@@ -20,11 +18,6 @@ import * as userActions from "../../store/actions/user";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
 const Login = () => {
-  const [loaded] = useFonts({
-    "Roboto-Medium": Asset.fromModule(
-      require("../../../assets/fonts/Roboto-Medium.ttf")
-    ),
-  });
   const dispatch = useDispatch();
   const ref = useRef(null);
   const [profileId, setProfileid] = useState("");
@@ -33,9 +26,6 @@ const Login = () => {
   const saveProfileId = (prifileId: string) =>
     dispatch(userActions.saveProfileId(prifileId));
 
-  if (!loaded) {
-    return null;
-  }
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={Colors.primaryDarkColor} />

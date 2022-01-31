@@ -8,8 +8,6 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Asset } from "expo-asset";
-import { useFonts } from "expo-font";
 import { useSelector, useDispatch } from "react-redux";
 
 import Colors from "../../constants/Colors";
@@ -21,11 +19,6 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 import * as userActions from "../../store/actions/user";
 
 const Pin = () => {
-  const [loaded] = useFonts({
-    "Roboto-Medium": Asset.fromModule(
-      require("../../../assets/fonts/Roboto-Medium.ttf")
-    ),
-  });
   const pinLength = useRef(0);
   const [selectedPinLength, setSelectedPinLength] = useState(0);
   const [isCorrectPass, setIsCorrectPass] = useState(false);
@@ -74,9 +67,6 @@ const Pin = () => {
     return <AppNavigator />;
   }
 
-  if (!loaded) {
-    return null;
-  }
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={Colors.primaryDarkColor} />
