@@ -9,12 +9,19 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Asset } from "expo-asset";
 import { useFonts } from "expo-font";
 
 import Colors from "../../constants/Colors";
 import Images from "../../constants/Images";
+import user, { UserState } from "../../store/reducers/user";
+import * as userActions from "../../store/actions/user";
+
+interface RootState {
+  user: UserState;
+}
 
 const Login = () => {
   const [loaded] = useFonts({
@@ -22,8 +29,12 @@ const Login = () => {
       require("../../../assets/fonts/Roboto-Medium.ttf")
     ),
   });
-
+  const userData = useSelector((state: RootState) => state.user.userData);
+  const dispatch = useDispatch();
   const ref = useRef(null);
+
+  const saveProfileId = (prifileId: string) =>
+    dispatch(userActions.saveProfileId(prifileId));
 
   if (!loaded) {
     return null;
@@ -57,7 +68,9 @@ const Login = () => {
             <TouchableOpacity
               style={styles.signBtn}
               activeOpacity={0.5}
-              onPress={() => {}}
+              onPress={() => {
+                saveProfileId("75fi73Fk");
+              }}
             >
               <Text style={styles.btnText}>Sign In</Text>
             </TouchableOpacity>

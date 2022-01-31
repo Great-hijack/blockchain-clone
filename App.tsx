@@ -7,10 +7,13 @@ import { PersistGate } from "redux-persist/integration/react";
 
 import Pin from "./src/screens/pin";
 import transactionsReducer from "./src/store/reducers/transactions";
+import userReducer from "./src/store/reducers/user";
 import { persistConfig } from "./src/store/store";
+import Login from "./src/screens/auth";
 
 const rootReducer = combineReducers({
   transactions: persistReducer(persistConfig, transactionsReducer),
+  user: persistReducer(persistConfig, userReducer),
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
