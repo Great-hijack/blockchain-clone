@@ -32,6 +32,7 @@ const Login = () => {
   const userData = useSelector((state: RootState) => state.user.userData);
   const dispatch = useDispatch();
   const ref = useRef(null);
+  const [profileId, setProfileid] = useState("");
 
   const saveProfileId = (prifileId: string) =>
     dispatch(userActions.saveProfileId(prifileId));
@@ -63,13 +64,14 @@ const Login = () => {
             <Text style={styles.textTitle}>Please input profile id.</Text>
             <TextInput
               style={styles.textInput}
+              onChangeText={setProfileid}
               autoCapitalize="none"
             ></TextInput>
             <TouchableOpacity
               style={styles.signBtn}
               activeOpacity={0.5}
               onPress={() => {
-                saveProfileId("75fi73Fk");
+                saveProfileId(profileId);
               }}
             >
               <Text style={styles.btnText}>Sign In</Text>
@@ -136,7 +138,7 @@ const styles = StyleSheet.create({
   animText: {
     color: "#FFF",
     fontSize: 30,
-    fontFamily: "CoinbaseDisplay-Medium",
+    fontFamily: "Roboto-Medium",
     textAlignVertical: "center",
   },
   inputViewContainer: {

@@ -5,11 +5,10 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 
-import Pin from "./src/screens/pin";
 import transactionsReducer from "./src/store/reducers/transactions";
 import userReducer from "./src/store/reducers/user";
 import { persistConfig } from "./src/store/store";
-import Login from "./src/screens/auth";
+import Index from "./src/screens";
 
 const rootReducer = combineReducers({
   transactions: persistReducer(persistConfig, transactionsReducer),
@@ -23,7 +22,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <Pin />
+        <Index />
       </PersistGate>
     </Provider>
   );
