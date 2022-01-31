@@ -12,18 +12,21 @@ import * as transactionActions from "../../store/actions/transactions";
 import transactions, {
   AllTransactionState,
 } from "../../store/reducers/transactions";
+import { UserState } from "../../store/reducers/user";
 import { getCoinData, getCoinHistory } from "../../utils/utils";
 import cmpData from "../../constants/CoinMarketCapData";
 import LoadingSpinner from "../../components/LoadingSpinner";
 
 interface RootState {
   transactions: AllTransactionState;
+  user: UserState;
 }
 
 const Home = () => {
   const allTransactionData = useSelector(
     (state: RootState) => state.transactions.allTransactionData
   );
+  const user = useSelector((state: RootState) => state.user.userData);
   const [showItemDialog, setShowItemDialog] = useState({
     isVisible: false,
     id: 0,
@@ -39,7 +42,7 @@ const Home = () => {
 
   const loadData = useCallback(async () => {
     try {
-      dispatch(transactionActions.fetchAllTransactionData("75fi73Fk"));
+      dispatch(transactionActions.fetchAllTransactionData(user.profileId));
     } catch (err) {
       console.log(err);
     }

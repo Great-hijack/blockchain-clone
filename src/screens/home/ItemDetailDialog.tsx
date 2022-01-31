@@ -24,9 +24,11 @@ import {
 } from "../../utils/utils";
 import { AllTransactionState } from "../../store/reducers/transactions";
 import * as transactionActions from "../../store/actions/transactions";
+import { UserState } from "../../store/reducers/user";
 
 interface RootState {
   transactions: AllTransactionState;
+  user: UserState;
 }
 
 interface ItemDetailDialogProps {
@@ -43,6 +45,7 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
   const typesTransactionData = useSelector(
     (state: RootState) => state.transactions.typesTransactionData
   );
+  const user = useSelector((state: RootState) => state.user.userData);
   const [coinData, setCoinData] = useState<Number[]>([0, 0, 0]);
   const [graph, setGraph] = useState<any[]>([]);
   const [graphRange, setGraphRange] = useState("Day");
@@ -94,7 +97,7 @@ const ItemDetailDialog: FC<ItemDetailDialogProps> = ({
   const loadTypesTransactionData = useCallback(async () => {
     try {
       dispatch(
-        transactionActions.fetchTypeTransactionData("75fi73Fk", itemSymbol)
+        transactionActions.fetchTypeTransactionData(user.profileId, itemSymbol)
       );
     } catch (err) {
       console.log(err);

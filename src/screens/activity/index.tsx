@@ -23,10 +23,12 @@ import * as transactionActions from "../../store/actions/transactions";
 import transactions, {
   AllTransactionState,
 } from "../../store/reducers/transactions";
+import { UserState } from "../../store/reducers/user";
 import { getCoinData, getLocaleCurrencyString } from "../../utils/utils";
 
 interface RootState {
   transactions: AllTransactionState;
+  user: UserState;
 }
 
 const Activity = () => {
@@ -36,6 +38,7 @@ const Activity = () => {
   const transactionHistoryData = useSelector(
     (state: RootState) => state.transactions.transactionHistoryData
   );
+  const user = useSelector((state: RootState) => state.user.userData);
   const [scrollRefreshing, setscrollRefreshing] = useState(false);
   const [isDialogVisible, setDialogVisible] = useState({
     isVisible: false,
@@ -57,8 +60,8 @@ const Activity = () => {
 
   const loadData = useCallback(async () => {
     try {
-      dispatch(transactionActions.fetchAllTransactionData("75fi73Fk"));
-      dispatch(transactionActions.fetchTransactionHistoryData("75fi73Fk"));
+      dispatch(transactionActions.fetchAllTransactionData(user.profileId));
+      dispatch(transactionActions.fetchTransactionHistoryData(user.profileId));
     } catch (err) {
       console.log(err);
     }
