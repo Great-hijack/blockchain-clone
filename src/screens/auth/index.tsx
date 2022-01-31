@@ -17,6 +17,7 @@ import { useFonts } from "expo-font";
 import Colors from "../../constants/Colors";
 import Images from "../../constants/Images";
 import * as userActions from "../../store/actions/user";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const Login = () => {
   const [loaded] = useFonts({
@@ -27,6 +28,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const ref = useRef(null);
   const [profileId, setProfileid] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const saveProfileId = (prifileId: string) =>
     dispatch(userActions.saveProfileId(prifileId));
@@ -65,7 +67,10 @@ const Login = () => {
               style={styles.signBtn}
               activeOpacity={0.5}
               onPress={() => {
-                saveProfileId(profileId);
+                setIsLoading(true);
+                setTimeout(() => {
+                  saveProfileId(profileId);
+                }, 2000);
               }}
             >
               <Text style={styles.btnText}>Sign In</Text>
@@ -73,6 +78,7 @@ const Login = () => {
           </View>
         </View>
       </ScrollView>
+      {isLoading && <LoadingSpinner />}
     </SafeAreaView>
   );
 };
