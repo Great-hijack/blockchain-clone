@@ -1,8 +1,16 @@
 import React, { useRef, useState } from "react";
-import { View, Text, StyleSheet, Image, StatusBar } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  StatusBar,
+  TouchableOpacity,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Asset } from "expo-asset";
 import { useFonts } from "expo-font";
+import { useSelector, useDispatch } from "react-redux";
 
 import Colors from "../../constants/Colors";
 import Images from "../../constants/Images";
@@ -10,6 +18,7 @@ import AppNavigator from "../../navigation";
 import DigiitalCode from "./DigitalCode";
 import PinCode from "./PinCode";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import * as userActions from "../../store/actions/user";
 
 const Pin = () => {
   const [loaded] = useFonts({
@@ -21,7 +30,13 @@ const Pin = () => {
   const [selectedPinLength, setSelectedPinLength] = useState(0);
   const [isCorrectPass, setIsCorrectPass] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useDispatch();
   let password = "";
+
+  const logOut = () => {
+    dispatch(userActions.deleteUser());
+  };
 
   const handlePinLength = (digit: string) => {
     if (digit === "back") {
@@ -66,7 +81,16 @@ const Pin = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor={Colors.primaryDarkColor} />
       <View style={styles.topBarContainer}>
-        <Text style={styles.txtLogout}>Log Out</Text>
+        <TouchableOpacity
+          style={styles.btnLogout}
+          activeOpacity={0.8}
+          onPress={() => {
+            logOut();
+          }}
+        >
+          <Text style={styles.txtLogout}>Log Out</Text>
+        </TouchableOpacity>
+
         <Image source={Images.LogoImg} style={styles.imgLogo} />
         <View style={styles.txtOppositeView}></View>
       </View>
@@ -104,6 +128,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.primaryDarkColor,
     alignItems: "center",
   },
+  btnLogout: {},
   txtLogout: {
     color: Colors.secondaryColor,
     fontSize: 16,

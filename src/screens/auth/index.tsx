@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import {
   View,
   Text,
@@ -16,12 +16,7 @@ import { useFonts } from "expo-font";
 
 import Colors from "../../constants/Colors";
 import Images from "../../constants/Images";
-import user, { UserState } from "../../store/reducers/user";
 import * as userActions from "../../store/actions/user";
-
-interface RootState {
-  user: UserState;
-}
 
 const Login = () => {
   const [loaded] = useFonts({
@@ -29,7 +24,6 @@ const Login = () => {
       require("../../../assets/fonts/Roboto-Medium.ttf")
     ),
   });
-  const userData = useSelector((state: RootState) => state.user.userData);
   const dispatch = useDispatch();
   const ref = useRef(null);
   const [profileId, setProfileid] = useState("");

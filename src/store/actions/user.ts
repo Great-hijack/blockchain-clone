@@ -15,7 +15,21 @@ export const saveProfileId = (profileId: string) => {
         userData: userData,
       });
     } catch (err) {
-      console.log("-----error-------", err);
+      throw err;
+    }
+  };
+};
+
+export const deleteUser = () => {
+  return async (dispatch: ThunkDispatch<AllTransactionState, void, Action>) => {
+    try {
+      const userData: User = { profileId: "", pinCode: "" };
+
+      dispatch({
+        type: ActionTypes.SET_USER_INFO,
+        userData: userData,
+      });
+    } catch (err) {
       throw err;
     }
   };
