@@ -35,6 +35,7 @@
     "react-native-segmented-control-tab": "^4.0.0",
     "react-native-svg": "^12.1.1",
     "react-native-svg-charts": "^5.4.0",
+    "react-native-toast-notifications": "^3.2.3",
     "react-native-vector-icons": "^9.0.0",
     "react-native-web": "0.17.1",
     "react-redux": "^7.2.6",

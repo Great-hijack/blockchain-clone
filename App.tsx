@@ -4,6 +4,7 @@ import ReduxThunk from "redux-thunk";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
+import { ToastProvider } from "react-native-toast-notifications";
 
 import transactionsReducer from "./src/store/reducers/transactions";
 import userReducer from "./src/store/reducers/user";
@@ -22,7 +23,9 @@ export default function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <Index />
+        <ToastProvider>
+          <Index />
+        </ToastProvider>
       </PersistGate>
     </Provider>
   );

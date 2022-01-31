@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector, useDispatch } from "react-redux";
+import { useToast } from "react-native-toast-notifications";
 
 import Colors from "../../constants/Colors";
 import Images from "../../constants/Images";
@@ -17,13 +18,20 @@ import DigiitalCode from "./DigitalCode";
 import PinCode from "./PinCode";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import * as userActions from "../../store/actions/user";
+import { UserState } from "../../store/reducers/user";
+import { API } from "../../api/urls";
+
+interface RootState {
+  user: UserState;
+}
 
 const Pin = () => {
+  const user = useSelector((state: RootState) => state.user.userData);
   const pinLength = useRef(0);
   const [selectedPinLength, setSelectedPinLength] = useState(0);
   const [isCorrectPass, setIsCorrectPass] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const toast = useToast();
   const dispatch = useDispatch();
   let password = "";
 
@@ -31,7 +39,7 @@ const Pin = () => {
     dispatch(userActions.deleteUser());
   };
 
-  const handlePinLength = (digit: string) => {
+  const handlePinLength = async (digit: string) => {
     if (digit === "back") {
       if (pinLength.current <= 0) {
         pinLength.current = 0;
@@ -48,9 +56,33 @@ const Pin = () => {
     handlePass(digit);
     if (pinLength.current === 4) {
       setIsLoading(true);
-      setTimeout(() => {
-        setIsCorrectPass(true);
-      }, 2000);
+      try {
+        await fetch(`${API.BASE_URL}/api/v1/auth/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Origin": "*",
+          },
+          body: JSON.stringify({ profileid: user.profileId }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            setIsLoading(false);
+            if (data["success"] === 1) {
+              setIsCorrectPass(true);
+            } else {
+              toast.show(data["msg"], {
+                duration: 2000,
+                animationType: "zoom-in",
+              });
+            }
+          })
+          .catch((err) => {
+            console.log("-----timeout-----", err);
+          });
+      } catch (e) {
+        console.log("-----error---", e);
+      }
     }
     setSelectedPinLength(pinLength.current);
   };

@@ -9,7 +9,6 @@ export const saveProfileId = (profileId: string) => {
   return async (dispatch: ThunkDispatch<AllTransactionState, void, Action>) => {
     try {
       const userData: User = { profileId: profileId, pinCode: "" };
-
       dispatch({
         type: ActionTypes.SET_USER_INFO,
         userData: userData,
